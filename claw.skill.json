@@ -1,7 +1,16 @@
 {
   "name": "CrawSecure",
-  "version": "0.1.0",
-  "description": "Security scanner for ClawHub skills",
-  "permissions": ["read-only"],
+  "slug": "crawsecure",
+  "version": "1.0.0",
+  "description": "Offline security scanner for ClawHub skills",
+  "author": "Diogo Paes",
+  "repository": "https://github.com/diogopaesdev/crawsecure",
+  "license": "MIT",
+  "type": "cli",
+  "permissions": {
+    "filesystem": "read-only",
+    "network": false
+  },
   "entry": "dist/index.js"
 }
+
