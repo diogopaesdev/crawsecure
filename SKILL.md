@@ -23,4 +23,4 @@ crawsecure <path-to-skill>
 - Read-only: never modifies scanned files
 - Offline: no network requests
 - No data exfiltration: nothing leaves your machine
-- Open source: inspect every line at github.com/crawsecure/crawsecure
+- Open source: inspect every line at github.com/diogopaesdev/crawsecure

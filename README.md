@@ -14,7 +14,7 @@ ClawHub skills run with access to your system. A malicious or poorly written ski
 ## Installation
 
 ```bash
-git clone https://github.com/crawsecure/crawsecure.git
+git clone https://github.com/diogopaesdev/crawsecure.git
 cd crawsecure
 npm install
 npm run build

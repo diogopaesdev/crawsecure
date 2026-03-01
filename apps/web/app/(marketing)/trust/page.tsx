@@ -176,7 +176,7 @@ export default function TrustPage() {
           The server validates every save request with a strict Zod schema that only accepts the
           fields above.{" "}
           <a
-            href="https://github.com/crawsecure/crawsecure"
+            href="https://github.com/diogopaesdev/crawsecure"
             target="_blank"
             rel="noopener noreferrer"
             className="underline hover:text-foreground"
@@ -224,7 +224,7 @@ export default function TrustPage() {
       <div className="text-center text-sm text-muted-foreground">
         Questions?{" "}
         <a
-          href="https://github.com/crawsecure/crawsecure/issues"
+          href="https://github.com/diogopaesdev/crawsecure/issues"
           target="_blank"
           rel="noopener noreferrer"
           className="text-violet-600 hover:underline"

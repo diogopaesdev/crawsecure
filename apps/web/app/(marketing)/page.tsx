@@ -143,7 +143,7 @@ export default function LandingPage() {
           </Button>
           <Button asChild variant="outline" size="lg">
             <a
-              href="https://github.com/crawsecure/crawsecure"
+              href="https://github.com/diogopaesdev/crawsecure"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -206,7 +206,7 @@ export default function LandingPage() {
             <p className="text-sm text-muted-foreground">
               13 stable rule IDs — all public, all auditable.{" "}
               <a
-                href="https://github.com/crawsecure/crawsecure"
+                href="https://github.com/diogopaesdev/crawsecure"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-violet-600 hover:underline"
@@ -309,7 +309,7 @@ export default function LandingPage() {
             <Link href="/trust"   className="hover:text-foreground transition-colors">Trust & Privacy</Link>
             <Link href="/pricing" className="hover:text-foreground transition-colors">Pricing</Link>
             <a
-              href="https://github.com/crawsecure/crawsecure"
+              href="https://github.com/diogopaesdev/crawsecure"
               className="hover:text-foreground transition-colors"
               target="_blank"
               rel="noopener noreferrer"
