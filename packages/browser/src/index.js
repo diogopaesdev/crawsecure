@@ -1,7 +1,7 @@
 // Browser entry point for CrawSecure.
 // All analysis runs locally — no file content is ever sent to a server.
 
-export {
+import {
   ALL_PATTERNS,
   DANGEROUS_PATTERNS,
   SENSITIVE_FILE_PATTERNS,
@@ -12,6 +12,18 @@ export {
   classifyRisk,
   summarize,
 } from "@crawsecure/core";
+
+export {
+  ALL_PATTERNS,
+  DANGEROUS_PATTERNS,
+  SENSITIVE_FILE_PATTERNS,
+  shouldScan,
+  scanContent,
+  scanFiles,
+  computeScore,
+  classifyRisk,
+  summarize,
+};
 
 /**
  * Reads a browser File object into { name, content }.
@@ -51,13 +63,11 @@ export function readFileList(fileList) {
  * }>}
  */
 export async function scanBrowserFiles(fileList) {
-  const { scanFiles, computeScore, classifyRisk, summarize } = await import("@crawsecure/core");
-
-  const files    = await readFileList(fileList);
-  const findings = scanFiles(files);
-  const score    = computeScore(findings);
-  const risk     = classifyRisk(score);
-  const summary  = summarize(findings);
+  const files          = await readFileList(fileList);
+  const findings       = scanFiles(files);
+  const score          = computeScore(findings);
+  const risk           = classifyRisk(score);
+  const summary        = summarize(findings);
   const rulesTriggered = [...new Set(findings.map(f => f.ruleId))];
 
   return { findings, score, risk, summary, rulesTriggered, filesScanned: files.length };
@@ -65,21 +75,16 @@ export async function scanBrowserFiles(fileList) {
 
 /**
  * Builds the crawsecure.json structure from a scan result.
- * This is generated client-side — never on the server.
+ * Generated client-side — never on the server.
  *
  * @param {{ findings, summary, score, risk, filesScanned }} result
  * @returns {object}
  */
 export function buildOutputJSON({ findings, summary, score, risk, filesScanned }) {
   return {
-    version:     "2.0",
-    generatedAt: new Date().toISOString(),
-    summary: {
-      filesScanned,
-      ...summary,
-      score,
-      risk,
-    },
+    version:        "2.0",
+    generatedAt:    new Date().toISOString(),
+    summary:        { filesScanned, ...summary, score, risk },
     rulesTriggered: [...new Set(findings.map(f => f.ruleId))],
     findings,
   };
