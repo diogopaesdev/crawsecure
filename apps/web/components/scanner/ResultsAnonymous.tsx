@@ -90,7 +90,10 @@ export function ResultsAnonymous({ result }: Props) {
                 Sign in to see which rules were triggered and which files are affected.
               </p>
               <Button
-                onClick={() => signIn("github")}
+                onClick={() => {
+                  sessionStorage.setItem("CRAWSECURE_PENDING_SCAN", JSON.stringify(result));
+                  signIn("github", { callbackUrl: "/analyze" });
+                }}
                 className="gap-2"
               >
                 <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>

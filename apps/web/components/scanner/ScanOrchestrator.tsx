@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { FileDropzone }       from "./FileDropzone";
@@ -8,6 +8,8 @@ import { ResultsAnonymous }   from "./ResultsAnonymous";
 import { ResultsFull }        from "./ResultsFull";
 import { parseCrawsecureJson, runBrowserScan } from "@/lib/scanner";
 import type { ScanResult } from "@/types/scanner";
+
+const PENDING_KEY = "CRAWSECURE_PENDING_SCAN";
 
 type State =
   | { status: "idle" }
@@ -20,8 +22,22 @@ function isCrawsecureJson(files: FileList): boolean {
 }
 
 export function ScanOrchestrator() {
-  const { data: session } = useSession();
+  const { data: session, status: sessionStatus } = useSession();
   const [state, setState] = useState<State>({ status: "idle" });
+
+  // After OAuth redirect: restore pending scan result from sessionStorage
+  useEffect(() => {
+    if (sessionStatus === "loading") return;
+    const stored = sessionStorage.getItem(PENDING_KEY);
+    if (!stored) return;
+    sessionStorage.removeItem(PENDING_KEY);
+    try {
+      const result = JSON.parse(stored) as ScanResult;
+      setState({ status: "done", result });
+    } catch {
+      // ignore malformed data
+    }
+  }, [sessionStatus]);
 
   const handleFiles = useCallback(async (files: FileList) => {
     setState({ status: "scanning" });
