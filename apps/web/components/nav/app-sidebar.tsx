@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { ScanLine, LayoutDashboard, Settings, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +15,10 @@ const links = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const { data: session, status } = useSession();
+
+  // Only show sidebar for authenticated users
+  if (status === "loading" || !session) return null;
 
   return (
     <aside className="hidden md:flex flex-col gap-1 w-44 shrink-0 pt-1">
