@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "analyze": "Analysieren",
+    "pricing": "Preise",
+    "trust": "Datenschutz",
+    "dashboard": "Dashboard",
+    "settings": "Einstellungen",
+    "upgrade": "Upgrade",
+    "signIn": "Mit GitHub anmelden",
+    "signOut": "Abmelden"
+  },
+  "common": {
+    "soon": "Demnächst",
+    "pro": "PRO",
+    "free": "Kostenlos",
+    "offline": "Offline",
+    "loading": "Laden…",
+    "tryAgain": "Erneut versuchen",
+    "newScan": "Neuer Scan",
+    "backToDashboard": "← Zurück zum Dashboard",
+    "learnMore": "Mehr erfahren →",
+    "privacyLink": "Datenschutzrichtlinie →"
+  },
+  "home": {
+    "badge": "Datenschutz · Offline · Open Source",
+    "title": "Skills scannen.\nCode schützen.",
+    "subtitle": "CrawSecure analysiert ClawHub-Skills auf Sicherheitsrisiken — vollständig in Ihrem Browser. Ihre Dateien verlassen Ihr Gerät nie.",
+    "ctaPrimary": "Skill scannen — kostenlos",
+    "ctaSecondary": "Preise ansehen"
+  },
+  "pricing": {
+    "title": "Einfache, transparente Preise",
+    "subtitle": "Kostenlos starten. Upgraden, wenn Sie mehr brauchen."
+  },
+  "trust": {
+    "title": "Vertrauen & Datenschutz",
+    "subtitle": "Wir haben CrawSecure als das Tool gebaut, dem wir selbst vertrauen würden."
+  },
+  "analyze": {
+    "title": "Sicherheitsscanner",
+    "description": "Wählen Sie, was Sie analysieren möchten. Alle Scans laufen lokal — Ihre Dateien verlassen dieses Gerät nie.",
+    "trustPill": "Ihre Dateien verlassen dieses Gerät nie",
+    "typeLabel": "Was möchten Sie analysieren?"
+  },
+  "scanner": {
+    "types": {
+      "skill": { "label": "OpenClaw Skill",   "sub": "Skill-Dateien oder crawsecure.json" },
+      "npm":   { "label": "NPM-Paket",         "sub": "Beliebiges npm-Paket scannen" },
+      "url":   { "label": "Website",           "sub": "Passiver Header- & CSP-Audit" },
+      "github":{ "label": "GitHub-Projekt",    "sub": "Vollständiges Repository — öffentlich oder privat" }
+    },
+    "dropzone": {
+      "title": "crawsecure.json oder Skill-Dateien hier ablegen",
+      "click": "oder zum Durchsuchen klicken",
+      "accepts": "Scannt: .js .ts .json .sh · Erkennt crawsecure.json automatisch"
+    },
+    "tip": {
+      "prefix": "Tipp:",
+      "body": "Erstellen Sie zuerst einen Bericht mit dem CLI:",
+      "cmd": "crawsecure ./my-skill --output crawsecure.json",
+      "suffix": "Dann die Datei oben ablegen für vollständige Visualisierung."
+    },
+    "scanning": "Lokaler Scan — nichts wird hochgeladen…",
+    "scanAnother": "← Anderen Skill scannen",
+    "trust": "Dieser Scan lief vollständig in Ihrem Browser. Keine Dateien wurden hochgeladen.",
+    "trustLink": "Mehr erfahren →",
+    "findings": "Befunde",
+    "noFindings": "Keine Sicherheitssignale gefunden. Dieser Skill scheint sicher.",
+    "filesScanned": "{count, plural, one {# Datei gescannt} other {# Dateien gescannt}}",
+    "levels": { "high": "Kritisch", "medium": "Warnung", "low": "Info" },
+    "saveStatus": {
+      "saving": "Speichern…",
+      "saved": "Im Dashboard gespeichert",
+      "limitReached": "Monatliches Limit erreicht",
+      "upgrade": "Upgrade",
+      "notSaved": "Nicht gespeichert"
+    },
+    "pro": {
+      "badge": "PRO",
+      "featuresTitle": "PRO-Funktionen für diesen Scan",
+      "upgradeBtn": "Upgrade · $9/Monat",
+      "exportTitle": "Diesen Scan als JSON exportieren",
+      "exportLock": "JSON-Export mit PRO freischalten",
+      "exportBtn": "JSON exportieren",
+      "alsoUnlocked": "Ebenfalls mit PRO freigeschaltet",
+      "featureUnlimited": "Unbegrenzte Scans",
+      "featureUnlimitedSub": "vs 10 / Monat",
+      "featureHistory": "Vollständige Historie (50)",
+      "featureHistorySub": "vs letzte 5 nur",
+      "featureTrend": "Entwicklungsdiagramm",
+      "featureTrendSub": "Fortschritt verfolgen",
+      "featureStats": "Erweiterte Regelstatistiken",
+      "featureStatsSub": "Durchschn. · Bester · Top-Regel"
+    },
+    "anonymous": {
+      "issuesFound": "{count, plural, one {# Problem gefunden — kostenlos anmelden, um Regeln zu sehen} other {# Probleme gefunden — kostenlos anmelden, um Regeln zu sehen}}",
+      "tableFeature": "Funktion",
+      "tableNow": "Jetzt",
+      "tableFree": "Kostenlos",
+      "tablePro": "PRO",
+      "signIn": "Anmelden",
+      "riskScore": "Risikobewertung",
+      "severityCounts": "Anzahl nach Schweregrad",
+      "ruleNames": "Ausgelöste Regeln",
+      "filesAffected": "Betroffene Dateien",
+      "autoSave": "Automatisch speichern",
+      "tenScans": "10 Scans / Monat",
+      "unlimited": "Unbegrenzte Scans",
+      "fullHistory": "Vollständige Historie (50)",
+      "trendChart": "Entwicklungsdiagramm",
+      "jsonExport": "JSON-Export"
+    }
+  },
+  "dashboard": {
+    "title": "Ihre Scans",
+    "newScan": "Neuer Scan",
+    "empty": "Noch keine Scans gespeichert.",
+    "emptyLink": "Ersten Skill scannen",
+    "historyNotice": "Kostenloser Plan — nur die letzten {limit} Scans",
+    "upgradeLink": "Upgrade für vollständige Historie",
+    "runningLow": "Wenige Scans verbleibend",
+    "runningLowDesc": "{remaining} von {limit} kostenlosen Scans diesen Monat verbleibend.",
+    "upgradePrompt": "Upgrade auf PRO für unbegrenzte Scans."
+  },
+  "settings": {
+    "title": "Kontoeinstellungen",
+    "profile": "Profil",
+    "usage": "Nutzung",
+    "billing": "Abrechnung",
+    "plan": "Plan",
+    "manageBilling": "Abrechnung verwalten",
+    "upgradeCta": "Upgrade auf PRO — $9/Monat",
+    "upgradePrompt": "Sie nutzen den kostenlosen Plan.",
+    "proPlanInfo": "Sie nutzen den PRO-Plan für $9/Monat.",
+    "scansUsed": "{used} / {limit} Scans diesen Monat verwendet",
+    "scansUnlimited": "{used} Scans diesen Monat · unbegrenzt",
+    "apiKey": "API-Schlüssel",
+    "apiKeySoon": "CI/CD-API-Schlüssel demnächst verfügbar."
+  },
+  "upgrade": {
+    "title": "Upgrade auf PRO",
+    "subtitle": "$9 / Monat · Jederzeit kündbar",
+    "freePlan": "Kostenlos (aktuell)",
+    "proPlan": "PRO",
+    "button": "Upgrade auf PRO",
+    "trust": "Ihr Code ist nie an der Abrechnung beteiligt. Zahlungen werden von Stripe verarbeitet.",
+    "successTitle": "Sie sind jetzt PRO!",
+    "successSubtitle": "Ihr Konto wurde aufgewertet.",
+    "successButton": "Zum Dashboard"
+  }
+}

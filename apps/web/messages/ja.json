@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "analyze": "分析",
+    "pricing": "料金",
+    "trust": "プライバシー",
+    "dashboard": "ダッシュボード",
+    "settings": "設定",
+    "upgrade": "アップグレード",
+    "signIn": "GitHubでログイン",
+    "signOut": "ログアウト"
+  },
+  "common": {
+    "soon": "近日公開",
+    "pro": "PRO",
+    "free": "無料",
+    "offline": "オフライン",
+    "loading": "読み込み中…",
+    "tryAgain": "再試行",
+    "newScan": "新しいスキャン",
+    "backToDashboard": "← ダッシュボードに戻る",
+    "learnMore": "詳細を見る →",
+    "privacyLink": "プライバシーポリシー →"
+  },
+  "home": {
+    "badge": "プライバシー優先 · オフライン · オープンソース",
+    "title": "スキルをスキャン。\nコードを守る。",
+    "subtitle": "CrawSecure はブラウザ内で ClawHub スキルのセキュリティリスクを分析します — ファイルがデバイスを離れることはありません。",
+    "ctaPrimary": "スキルを無料でスキャン",
+    "ctaSecondary": "料金を見る"
+  },
+  "pricing": {
+    "title": "シンプルで明瞭な料金",
+    "subtitle": "無料で始める。必要なときにアップグレード。"
+  },
+  "trust": {
+    "title": "信頼とプライバシー",
+    "subtitle": "私たち自身が信頼するツールとして CrawSecure を構築しました。"
+  },
+  "analyze": {
+    "title": "セキュリティスキャナー",
+    "description": "分析したいものを選んでください。すべてのスキャンはローカルで実行されます — ファイルがこのデバイスを離れることはありません。",
+    "trustPill": "ファイルがこのデバイスを離れることはありません",
+    "typeLabel": "何を分析しますか？"
+  },
+  "scanner": {
+    "types": {
+      "skill": { "label": "OpenClaw スキル",  "sub": "スキルファイルまたは crawsecure.json" },
+      "npm":   { "label": "NPM パッケージ",   "sub": "任意の npm パッケージをスキャン" },
+      "url":   { "label": "ウェブサイト",      "sub": "ヘッダーと CSP のパッシブ監査" },
+      "github":{ "label": "GitHub プロジェクト","sub": "完全なリポジトリ — パブリックまたはプライベート" }
+    },
+    "dropzone": {
+      "title": "crawsecure.json またはスキルファイルをここにドロップ",
+      "click": "またはクリックして参照",
+      "accepts": "スキャン対象：.js .ts .json .sh · crawsecure.json を自動検出"
+    },
+    "tip": {
+      "prefix": "ヒント：",
+      "body": "まず CLI でレポートを生成してください：",
+      "cmd": "crawsecure ./my-skill --output crawsecure.json",
+      "suffix": "次にファイルを上にドロップして完全な可視化を行います。"
+    },
+    "scanning": "ローカルでスキャン中 — アップロードはありません…",
+    "scanAnother": "← 別のスキルをスキャン",
+    "trust": "このスキャンはブラウザ内で完全に実行されました。ファイルはアップロードされていません。",
+    "trustLink": "詳細を見る →",
+    "findings": "検出結果",
+    "noFindings": "セキュリティシグナルは見つかりませんでした。このスキルは安全なようです。",
+    "filesScanned": "{count} ファイルをスキャン",
+    "levels": { "high": "重大", "medium": "警告", "low": "情報" },
+    "saveStatus": {
+      "saving": "保存中…",
+      "saved": "ダッシュボードに保存しました",
+      "limitReached": "月間制限に達しました",
+      "upgrade": "アップグレード",
+      "notSaved": "未保存"
+    },
+    "pro": {
+      "badge": "PRO",
+      "featuresTitle": "このスキャンの PRO 機能",
+      "upgradeBtn": "アップグレード · $9/月",
+      "exportTitle": "このスキャンを JSON でエクスポート",
+      "exportLock": "PRO で JSON エクスポートをアンロック",
+      "exportBtn": "JSON エクスポート",
+      "alsoUnlocked": "PRO でアンロックされるその他の機能",
+      "featureUnlimited": "無制限のスキャン",
+      "featureUnlimitedSub": "vs 月 10 回",
+      "featureHistory": "完全な履歴（50件）",
+      "featureHistorySub": "vs 最新 5 件のみ",
+      "featureTrend": "スコアトレンドグラフ",
+      "featureTrendSub": "進捗を追跡",
+      "featureStats": "高度なルール統計",
+      "featureStatsSub": "平均 · 最高 · トップルール"
+    },
+    "anonymous": {
+      "issuesFound": "{count} 件の問題が見つかりました — 無料でサインインしてルールを確認",
+      "tableFeature": "機能",
+      "tableNow": "現在",
+      "tableFree": "無料",
+      "tablePro": "PRO",
+      "signIn": "サインイン",
+      "riskScore": "リスクスコア",
+      "severityCounts": "深刻度別カウント",
+      "ruleNames": "トリガーされたルール",
+      "filesAffected": "影響を受けるファイル",
+      "autoSave": "履歴への自動保存",
+      "tenScans": "月 10 回のスキャン",
+      "unlimited": "無制限のスキャン",
+      "fullHistory": "完全な履歴（50件）",
+      "trendChart": "スコアトレンドグラフ",
+      "jsonExport": "JSON エクスポート"
+    }
+  },
+  "dashboard": {
+    "title": "あなたのスキャン",
+    "newScan": "新しいスキャン",
+    "empty": "保存されたスキャンはまだありません。",
+    "emptyLink": "最初のスキルをスキャン",
+    "historyNotice": "無料プラン — 最新 {limit} 件のみ",
+    "upgradeLink": "完全な履歴のためにアップグレード",
+    "runningLow": "スキャン残数わずか",
+    "runningLowDesc": "今月の無料スキャン残数：{remaining} / {limit}",
+    "upgradePrompt": "無制限スキャンのために PRO にアップグレード。"
+  },
+  "settings": {
+    "title": "アカウント設定",
+    "profile": "プロフィール",
+    "usage": "使用状況",
+    "billing": "請求",
+    "plan": "プラン",
+    "manageBilling": "請求を管理",
+    "upgradeCta": "PRO にアップグレード — $9/月",
+    "upgradePrompt": "無料プランをご利用中です。",
+    "proPlanInfo": "PRO プラン（$9/月）をご利用中です。",
+    "scansUsed": "今月 {used} / {limit} 回使用",
+    "scansUnlimited": "今月 {used} 回 · 無制限",
+    "apiKey": "API キー",
+    "apiKeySoon": "CI/CD 用 API キーは近日公開予定です。"
+  },
+  "upgrade": {
+    "title": "PRO にアップグレード",
+    "subtitle": "$9 / 月 · いつでもキャンセル可能",
+    "freePlan": "無料（現在）",
+    "proPlan": "PRO",
+    "button": "PRO にアップグレード",
+    "trust": "コードは請求に関与しません。支払いは Stripe が安全に処理します。",
+    "successTitle": "PRO になりました！",
+    "successSubtitle": "アカウントがアップグレードされました。",
+    "successButton": "ダッシュボードへ"
+  }
+}

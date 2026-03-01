@@ -1,8 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { UserMenu } from "./user-menu";
+import { LocaleSwitcher } from "./LocaleSwitcher";
 
 export function MainNav() {
+  const t = useTranslations("nav");
+
+  const navLinks = [
+    { href: "/analyze", label: t("analyze") },
+    { href: "/pricing", label: t("pricing") },
+    { href: "/trust",   label: t("trust")   },
+  ];
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex h-16 items-center justify-between">
@@ -15,11 +25,7 @@ export function MainNav() {
 
         {/* Nav links */}
         <nav className="hidden md:flex items-center gap-1">
-          {[
-            { href: "/analyze",  label: "Analyze" },
-            { href: "/pricing",  label: "Pricing" },
-            { href: "/trust",    label: "Trust" },
-          ].map(({ href, label }) => (
+          {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
@@ -30,8 +36,11 @@ export function MainNav() {
           ))}
         </nav>
 
-        {/* User */}
-        <UserMenu />
+        {/* Right: locale switcher + user */}
+        <div className="flex items-center gap-3">
+          <LocaleSwitcher />
+          <UserMenu />
+        </div>
       </div>
     </header>
   );

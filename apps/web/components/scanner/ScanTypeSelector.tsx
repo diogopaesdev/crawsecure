@@ -1,49 +1,39 @@
 "use client";
 
 import { Shield, Package, Globe, GitBranch } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 export type ScanType = "skill" | "npm" | "url" | "github";
 
 interface ScanTypeOption {
-  id:       ScanType;
-  label:    string;
-  sub:      string;
-  icon:     React.ElementType;
-  ready:    boolean;
+  id:    ScanType;
+  icon:  React.ElementType;
+  ready: boolean;
 }
 
 const OPTIONS: ScanTypeOption[] = [
-  {
-    id:    "skill",
-    label: "OpenClaw Skill",
-    sub:   "Skill files or crawsecure.json",
-    icon:  Shield,
-    ready: true,
-  },
-  {
-    id:    "npm",
-    label: "NPM Package",
-    sub:   "Scan any npm package",
-    icon:  Package,
-    ready: false,
-  },
-  {
-    id:    "url",
-    label: "Website",
-    sub:   "Passive header & CSP audit",
-    icon:  Globe,
-    ready: false,
-  },
-  {
-    id:    "github",
-    label: "GitHub Project",
-    sub:   "Full repo — public or private",
-    icon:  GitBranch,
-    ready: false,
-  },
+  { id: "skill",  icon: Shield,    ready: true  },
+  { id: "npm",    icon: Package,   ready: false },
+  { id: "url",    icon: Globe,     ready: false },
+  { id: "github", icon: GitBranch, ready: false },
 ];
+
+// Explicit key maps to keep TypeScript happy with next-intl's typed t()
+const LABEL_KEYS: Record<ScanType, "types.skill.label" | "types.npm.label" | "types.url.label" | "types.github.label"> = {
+  skill:  "types.skill.label",
+  npm:    "types.npm.label",
+  url:    "types.url.label",
+  github: "types.github.label",
+};
+
+const SUB_KEYS: Record<ScanType, "types.skill.sub" | "types.npm.sub" | "types.url.sub" | "types.github.sub"> = {
+  skill:  "types.skill.sub",
+  npm:    "types.npm.sub",
+  url:    "types.url.sub",
+  github: "types.github.sub",
+};
 
 interface Props {
   selected: ScanType;
@@ -51,13 +41,16 @@ interface Props {
 }
 
 export function ScanTypeSelector({ selected, onChange }: Props) {
+  const t  = useTranslations("scanner");
+  const ta = useTranslations("analyze");
+  const tc = useTranslations("common");
   return (
     <div className="w-full max-w-xl">
       <p className="text-xs text-muted-foreground mb-3 font-medium uppercase tracking-wide">
-        What do you want to analyse?
+        {ta("typeLabel")}
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {OPTIONS.map(({ id, label, sub, icon: Icon, ready }) => {
+        {OPTIONS.map(({ id, icon: Icon, ready }) => {
           const active = selected === id;
           return (
             <button
@@ -84,7 +77,7 @@ export function ScanTypeSelector({ selected, onChange }: Props) {
                 </div>
                 {!ready && (
                   <Badge variant="outline" className="text-[9px] h-4 px-1.5 font-medium">
-                    Soon
+                    {tc("soon")}
                   </Badge>
                 )}
                 {active && ready && (
@@ -93,9 +86,11 @@ export function ScanTypeSelector({ selected, onChange }: Props) {
               </div>
               <div>
                 <p className={cn("text-xs font-semibold leading-tight", active ? "text-primary" : "text-foreground")}>
-                  {label}
+                  {t(LABEL_KEYS[id])}
                 </p>
-                <p className="text-[10px] text-muted-foreground leading-tight mt-0.5">{sub}</p>
+                <p className="text-[10px] text-muted-foreground leading-tight mt-0.5">
+                  {t(SUB_KEYS[id])}
+                </p>
               </div>
             </button>
           );

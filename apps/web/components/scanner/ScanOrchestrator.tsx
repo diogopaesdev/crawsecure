@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { FileDropzone }     from "./FileDropzone";
 import { ResultsAnonymous } from "./ResultsAnonymous";
@@ -28,6 +29,8 @@ export function ScanOrchestrator() {
   const [state,      setState]      = useState<ScanState>({ status: "idle" });
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const savedRef = useRef(false); // prevent double-save in StrictMode
+  const t  = useTranslations("scanner");
+  const tc = useTranslations("common");
 
   // Restore scan result after OAuth redirect
   useEffect(() => {
@@ -99,13 +102,13 @@ export function ScanOrchestrator() {
       <div className="flex flex-col items-center gap-6">
         <FileDropzone onFiles={handleFiles} />
         <div className="text-xs text-muted-foreground text-center max-w-sm">
-          <strong>Tip:</strong> generate a report with the CLI first:
+          <strong>{t("tip.prefix")}</strong> {t("tip.body")}
           <br />
           <code className="bg-muted px-1.5 py-0.5 rounded text-[11px] mt-1 inline-block">
-            crawsecure ./my-skill --output crawsecure.json
+            {t("tip.cmd")}
           </code>
           <br />
-          then drop the file above for full visualization.
+          {t("tip.suffix")}
         </div>
       </div>
     );
@@ -116,7 +119,7 @@ export function ScanOrchestrator() {
     return (
       <div className="flex flex-col items-center gap-4 py-8 text-muted-foreground">
         <div className="h-8 w-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-        <p className="text-sm">Scanning locally — nothing is uploaded…</p>
+        <p className="text-sm">{t("scanning")}</p>
       </div>
     );
   }
@@ -126,7 +129,7 @@ export function ScanOrchestrator() {
     return (
       <div className="flex flex-col items-center gap-4 py-8 text-center">
         <p className="text-sm text-destructive">{state.message}</p>
-        <Button variant="outline" size="sm" onClick={reset}>Try again</Button>
+        <Button variant="outline" size="sm" onClick={reset}>{tc("tryAgain")}</Button>
       </div>
     );
   }
@@ -143,7 +146,7 @@ export function ScanOrchestrator() {
         <ResultsAnonymous result={result} />
       )}
       <Button variant="ghost" size="sm" onClick={reset} className="text-muted-foreground">
-        ← Scan another skill
+        {t("scanAnother")}
       </Button>
     </div>
   );

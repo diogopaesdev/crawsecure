@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "analyze": "Analyze",
+    "pricing": "Pricing",
+    "trust": "Trust",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "upgrade": "Upgrade",
+    "signIn": "Sign in with GitHub",
+    "signOut": "Sign out"
+  },
+  "common": {
+    "soon": "Soon",
+    "pro": "PRO",
+    "free": "Free",
+    "offline": "Offline",
+    "loading": "Loading…",
+    "tryAgain": "Try again",
+    "newScan": "New scan",
+    "backToDashboard": "← Back to dashboard",
+    "learnMore": "Learn more →",
+    "privacyLink": "Privacy policy →"
+  },
+  "home": {
+    "badge": "Privacy-first · Offline · Open source",
+    "title": "Scan skills.\nKeep your code.",
+    "subtitle": "CrawSecure analyses ClawHub skills for security risks — entirely in your browser. Your files never leave your machine.",
+    "ctaPrimary": "Scan a skill — free",
+    "ctaSecondary": "See pricing"
+  },
+  "pricing": {
+    "title": "Simple, honest pricing",
+    "subtitle": "Start free. Upgrade when you need more."
+  },
+  "trust": {
+    "title": "Trust & Privacy",
+    "subtitle": "We built CrawSecure to be the tool we'd trust ourselves."
+  },
+  "analyze": {
+    "title": "Security Scanner",
+    "description": "Choose what you want to analyse. All scans run locally — your files never leave this device.",
+    "trustPill": "Your files never leave this device",
+    "typeLabel": "What do you want to analyse?"
+  },
+  "scanner": {
+    "types": {
+      "skill": { "label": "OpenClaw Skill", "sub": "Skill files or crawsecure.json" },
+      "npm":   { "label": "NPM Package",    "sub": "Scan any npm package" },
+      "url":   { "label": "Website",        "sub": "Passive header & CSP audit" },
+      "github":{ "label": "GitHub Project", "sub": "Full repo — public or private" }
+    },
+    "dropzone": {
+      "title": "Drop crawsecure.json or skill files here",
+      "click": "or click to browse",
+      "accepts": "Scans: .js .ts .json .sh · Auto-detects crawsecure.json"
+    },
+    "tip": {
+      "prefix": "Tip:",
+      "body": "generate a report with the CLI first:",
+      "cmd": "crawsecure ./my-skill --output crawsecure.json",
+      "suffix": "then drop the file above for full visualization."
+    },
+    "scanning": "Scanning locally — nothing is uploaded…",
+    "scanAnother": "← Scan another skill",
+    "trust": "This scan ran entirely in your browser. No files were uploaded.",
+    "trustLink": "Learn more →",
+    "findings": "Findings",
+    "noFindings": "No security signals found. This skill looks safe.",
+    "filesScanned": "{count, plural, one {# file scanned} other {# files scanned}}",
+    "levels": { "high": "Critical", "medium": "Warning", "low": "Info" },
+    "saveStatus": {
+      "saving": "Saving…",
+      "saved": "Saved to dashboard",
+      "limitReached": "Monthly limit reached",
+      "upgrade": "Upgrade",
+      "notSaved": "Not saved"
+    },
+    "pro": {
+      "badge": "PRO",
+      "featuresTitle": "PRO features for this scan",
+      "upgradeBtn": "Upgrade · $9/mo",
+      "exportTitle": "Export this scan as JSON",
+      "exportLock": "Unlock JSON export with PRO",
+      "exportBtn": "Export JSON",
+      "alsoUnlocked": "Also unlocked with PRO",
+      "featureUnlimited": "Unlimited scans",
+      "featureUnlimitedSub": "vs 10 / month",
+      "featureHistory": "Full history (50)",
+      "featureHistorySub": "vs last 5 only",
+      "featureTrend": "Score trend chart",
+      "featureTrendSub": "track progress",
+      "featureStats": "Advanced rule stats",
+      "featureStatsSub": "avg · best · top rule"
+    },
+    "anonymous": {
+      "issuesFound": "{count, plural, one {# issue found — sign in free to see exactly which rules fired} other {# issues found — sign in free to see exactly which rules fired}}",
+      "tableFeature": "Feature",
+      "tableNow": "Now",
+      "tableFree": "Free",
+      "tablePro": "PRO",
+      "signIn": "Sign in",
+      "riskScore": "Risk score",
+      "severityCounts": "Severity counts",
+      "ruleNames": "Rule names triggered",
+      "filesAffected": "Files affected",
+      "autoSave": "Auto-save to history",
+      "tenScans": "10 scans / month",
+      "unlimited": "Unlimited scans",
+      "fullHistory": "Full history (50)",
+      "trendChart": "Score trend chart",
+      "jsonExport": "JSON export"
+    }
+  },
+  "dashboard": {
+    "title": "Your Scans",
+    "newScan": "New scan",
+    "empty": "No scans saved yet.",
+    "emptyLink": "Scan your first skill",
+    "historyNotice": "Free plan — last {limit} scans only",
+    "upgradeLink": "Upgrade for full history",
+    "runningLow": "Running low on scans",
+    "runningLowDesc": "{remaining} of {limit} free scans remaining this month.",
+    "upgradePrompt": "Upgrade to PRO for unlimited scans."
+  },
+  "settings": {
+    "title": "Account Settings",
+    "profile": "Profile",
+    "usage": "Usage",
+    "billing": "Billing",
+    "plan": "Plan",
+    "manageBilling": "Manage billing",
+    "upgradeCta": "Upgrade to PRO — $9/mo",
+    "upgradePrompt": "You are on the Free plan.",
+    "proPlanInfo": "You are on the PRO plan at $9/month.",
+    "scansUsed": "{used} / {limit} scans used this month",
+    "scansUnlimited": "{used} scans this month · unlimited",
+    "apiKey": "API Key",
+    "apiKeySoon": "CI/CD API key coming soon."
+  },
+  "upgrade": {
+    "title": "Upgrade to PRO",
+    "subtitle": "$9 / month · Cancel anytime",
+    "freePlan": "Free (current)",
+    "proPlan": "PRO",
+    "button": "Upgrade to PRO",
+    "trust": "Your code is never involved in billing. Payment is handled by Stripe.",
+    "successTitle": "You're PRO!",
+    "successSubtitle": "Your account has been upgraded.",
+    "successButton": "Go to dashboard"
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export function FileDropzone({ onFiles }: Props) {
+  const t = useTranslations("scanner");
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -53,16 +55,13 @@ export function FileDropzone({ onFiles }: Props) {
 
       <div className="pointer-events-none">
         <p className="text-sm font-medium">
-          Drop{" "}
-          <code className="bg-muted px-1 rounded text-xs">crawsecure.json</code>
-          {" "}or skill files here
+          {t("dropzone.title")}
         </p>
-        <p className="text-xs text-muted-foreground mt-1">or click to browse</p>
+        <p className="text-xs text-muted-foreground mt-1">{t("dropzone.click")}</p>
       </div>
 
       <p className="text-xs text-muted-foreground pointer-events-none">
-        Scans: <code className="text-xs">.js .ts .json .sh</code>
-        &nbsp;· Auto-detects crawsecure.json
+        {t("dropzone.accepts")}
       </p>
 
       <input

@@ -2,6 +2,7 @@
 
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +17,8 @@ import { Badge } from "@/components/ui/badge";
 
 export function UserMenu() {
   const { data: session, status } = useSession();
+  const t  = useTranslations("nav");
+  const tc = useTranslations("common");
 
   if (status === "loading") {
     return <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />;
@@ -28,7 +31,7 @@ export function UserMenu() {
         size="sm"
         onClick={() => signIn("github")}
       >
-        Sign in with GitHub
+        {t("signIn")}
       </Button>
     );
   }
@@ -57,7 +60,7 @@ export function UserMenu() {
             <p className="text-sm font-medium">{session.user.name}</p>
             <p className="text-xs text-muted-foreground truncate">{session.user.email}</p>
             <Badge variant={session.user.plan === "pro" ? "default" : "secondary"} className="w-fit mt-1 text-xs">
-              {session.user.plan === "pro" ? "PRO" : "Free"}
+              {session.user.plan === "pro" ? tc("pro") : tc("free")}
             </Badge>
           </div>
         </DropdownMenuLabel>
@@ -65,10 +68,10 @@ export function UserMenu() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/dashboard">Dashboard</Link>
+          <Link href="/dashboard">{t("dashboard")}</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/settings">Settings</Link>
+          <Link href="/settings">{t("settings")}</Link>
         </DropdownMenuItem>
 
         {session.user.plan !== "pro" && (
@@ -76,7 +79,7 @@ export function UserMenu() {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/upgrade" className="text-violet-600 font-medium">
-                Upgrade to PRO
+                {t("upgrade")}
               </Link>
             </DropdownMenuItem>
           </>
@@ -88,7 +91,7 @@ export function UserMenu() {
           className="text-destructive focus:text-destructive"
           onClick={() => signOut()}
         >
-          Sign out
+          {t("signOut")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

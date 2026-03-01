@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { Check, Minus, Lock, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -13,25 +14,31 @@ const LEVEL_DOT: Record<string, string> = {
   low:    "bg-blue-500",
 };
 
-// Feature comparison data
+// Feature comparison — labelKey is a typed next-intl key for t()
+type AnonLabelKey =
+  | "anonymous.riskScore" | "anonymous.severityCounts" | "anonymous.ruleNames"
+  | "anonymous.filesAffected" | "anonymous.autoSave" | "anonymous.tenScans"
+  | "anonymous.unlimited" | "anonymous.fullHistory" | "anonymous.trendChart"
+  | "anonymous.jsonExport";
+
 type FeatureRow = {
-  label:     string;
-  anon:      "yes" | "no" | "lock";
-  free:      "yes" | "no";
-  pro:       "yes" | "no";
+  labelKey: AnonLabelKey;
+  anon: "yes" | "no" | "lock";
+  free: "yes" | "no";
+  pro:  "yes" | "no";
 };
 
 const FEATURES: FeatureRow[] = [
-  { label: "Risk score",            anon: "yes",  free: "yes", pro: "yes" },
-  { label: "Severity counts",       anon: "yes",  free: "yes", pro: "yes" },
-  { label: "Rule names triggered",  anon: "lock", free: "yes", pro: "yes" },
-  { label: "Files affected",        anon: "lock", free: "yes", pro: "yes" },
-  { label: "Auto-save to history",  anon: "no",   free: "yes", pro: "yes" },
-  { label: "10 scans / month",      anon: "no",   free: "yes", pro: "yes" },
-  { label: "Unlimited scans",       anon: "no",   free: "no",  pro: "yes" },
-  { label: "Full history (50)",     anon: "no",   free: "no",  pro: "yes" },
-  { label: "Score trend chart",     anon: "no",   free: "no",  pro: "yes" },
-  { label: "JSON export",           anon: "no",   free: "no",  pro: "yes" },
+  { labelKey: "anonymous.riskScore",      anon: "yes",  free: "yes", pro: "yes" },
+  { labelKey: "anonymous.severityCounts", anon: "yes",  free: "yes", pro: "yes" },
+  { labelKey: "anonymous.ruleNames",      anon: "lock", free: "yes", pro: "yes" },
+  { labelKey: "anonymous.filesAffected",  anon: "lock", free: "yes", pro: "yes" },
+  { labelKey: "anonymous.autoSave",       anon: "no",   free: "yes", pro: "yes" },
+  { labelKey: "anonymous.tenScans",       anon: "no",   free: "yes", pro: "yes" },
+  { labelKey: "anonymous.unlimited",      anon: "no",   free: "no",  pro: "yes" },
+  { labelKey: "anonymous.fullHistory",    anon: "no",   free: "no",  pro: "yes" },
+  { labelKey: "anonymous.trendChart",     anon: "no",   free: "no",  pro: "yes" },
+  { labelKey: "anonymous.jsonExport",     anon: "no",   free: "no",  pro: "yes" },
 ];
 
 function Cell({ value }: { value: "yes" | "no" | "lock" }) {
@@ -45,7 +52,8 @@ interface Props {
 }
 
 export function ResultsAnonymous({ result }: Props) {
-  const { score, risk, summary, findings, filesScanned } = result;
+  const t = useTranslations("scanner");
+  const { score, risk, summary, filesScanned } = result;
   const totalIssues = summary.critical + summary.warning + summary.info;
 
   const placeholderRows = [
@@ -66,19 +74,19 @@ export function ResultsAnonymous({ result }: Props) {
           <div className="flex gap-5 text-sm">
             <span className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-red-500" />
-              <strong>{summary.critical}</strong> Critical
+              <strong>{summary.critical}</strong> {t("levels.high")}
             </span>
             <span className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-amber-500" />
-              <strong>{summary.warning}</strong> Warnings
+              <strong>{summary.warning}</strong> {t("levels.medium")}
             </span>
             <span className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-blue-500" />
-              <strong>{summary.info}</strong> Info
+              <strong>{summary.info}</strong> {t("levels.low")}
             </span>
           </div>
           <p className="text-xs text-muted-foreground">
-            {filesScanned} file{filesScanned !== 1 ? "s" : ""} scanned
+            {t("filesScanned", { count: filesScanned })}
           </p>
         </CardContent>
       </Card>
@@ -118,7 +126,7 @@ export function ResultsAnonymous({ result }: Props) {
                 <Lock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
               </div>
               <p className="text-sm font-medium text-center px-6">
-                {totalIssues} issue{totalIssues !== 1 ? "s" : ""} found — sign in free to see exactly which rules fired
+                {t("anonymous.issuesFound", { count: totalIssues })}
               </p>
             </div>
           </CardContent>
@@ -128,20 +136,22 @@ export function ResultsAnonymous({ result }: Props) {
       {/* ── Tier comparison ────────────────────────────────────────────── */}
       <Card className="overflow-hidden">
         <div className="grid grid-cols-[1fr_auto_auto_auto] items-center border-b border-border/60 bg-muted/40">
-          <div className="px-4 py-2.5 text-xs font-medium text-muted-foreground">Feature</div>
-          <div className="w-20 px-2 py-2.5 text-center text-xs font-medium text-muted-foreground">Now</div>
-          <div className="w-20 px-2 py-2.5 text-center text-xs font-semibold text-foreground">Free</div>
+          <div className="px-4 py-2.5 text-xs font-medium text-muted-foreground">{t("anonymous.tableFeature")}</div>
+          <div className="w-20 px-2 py-2.5 text-center text-xs font-medium text-muted-foreground">{t("anonymous.tableNow")}</div>
+          <div className="w-20 px-2 py-2.5 text-center text-xs font-semibold text-foreground">{t("anonymous.tableFree")}</div>
           <div className="w-20 px-2 py-2.5 text-center">
             <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
-              <Zap className="h-3 w-3" /> PRO
+              <Zap className="h-3 w-3" /> {t("anonymous.tablePro")}
             </span>
           </div>
         </div>
 
         <div className="divide-y divide-border/40">
-          {FEATURES.map(({ label, anon, free, pro }) => (
-            <div key={label} className="grid grid-cols-[1fr_auto_auto_auto] items-center">
-              <span className="px-4 py-2 text-xs text-muted-foreground">{label}</span>
+          {FEATURES.map(({ labelKey, anon, free, pro }) => (
+            <div key={labelKey} className="grid grid-cols-[1fr_auto_auto_auto] items-center">
+              <span className="px-4 py-2 text-xs text-muted-foreground">
+                {t(labelKey)}
+              </span>
               <div className="w-20 py-2 text-center"><Cell value={anon} /></div>
               <div className="w-20 py-2 text-center"><Cell value={free} /></div>
               <div className="w-20 py-2 text-center bg-primary/[0.03]"><Cell value={pro} /></div>
@@ -162,7 +172,7 @@ export function ResultsAnonymous({ result }: Props) {
                 signIn("github", { callbackUrl: "/analyze" });
               }}
             >
-              Sign in
+              {t("anonymous.signIn")}
             </Button>
           </div>
           <div className="w-20 text-center">
@@ -172,7 +182,7 @@ export function ResultsAnonymous({ result }: Props) {
               asChild
             >
               <a href="/upgrade">
-                <Zap className="h-3 w-3" /> PRO
+                <Zap className="h-3 w-3" /> {t("anonymous.tablePro")}
               </a>
             </Button>
           </div>
@@ -180,7 +190,7 @@ export function ResultsAnonymous({ result }: Props) {
       </Card>
 
       <p className="text-xs text-muted-foreground text-center">
-        This scan ran entirely in your browser — no files were uploaded.
+        {t("trust")}
       </p>
     </div>
   );

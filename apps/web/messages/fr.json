@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "analyze": "Analyser",
+    "pricing": "Tarifs",
+    "trust": "Confidentialité",
+    "dashboard": "Tableau de bord",
+    "settings": "Paramètres",
+    "upgrade": "Passer à PRO",
+    "signIn": "Connexion avec GitHub",
+    "signOut": "Se déconnecter"
+  },
+  "common": {
+    "soon": "Bientôt",
+    "pro": "PRO",
+    "free": "Gratuit",
+    "offline": "Hors ligne",
+    "loading": "Chargement…",
+    "tryAgain": "Réessayer",
+    "newScan": "Nouvelle analyse",
+    "backToDashboard": "← Retour au tableau de bord",
+    "learnMore": "En savoir plus →",
+    "privacyLink": "Politique de confidentialité →"
+  },
+  "home": {
+    "badge": "Confidentialité · Hors ligne · Open source",
+    "title": "Analysez les skills.\nProtégez votre code.",
+    "subtitle": "CrawSecure analyse les skills ClawHub à la recherche de risques de sécurité — entièrement dans votre navigateur. Vos fichiers ne quittent jamais votre appareil.",
+    "ctaPrimary": "Analyser une skill — gratuit",
+    "ctaSecondary": "Voir les tarifs"
+  },
+  "pricing": {
+    "title": "Des tarifs simples et honnêtes",
+    "subtitle": "Commencez gratuitement. Passez à la version supérieure quand vous en avez besoin."
+  },
+  "trust": {
+    "title": "Confiance et Confidentialité",
+    "subtitle": "Nous avons conçu CrawSecure pour être l'outil en lequel nous-mêmes aurions confiance."
+  },
+  "analyze": {
+    "title": "Analyseur de Sécurité",
+    "description": "Choisissez ce que vous souhaitez analyser. Toutes les analyses s'exécutent localement — vos fichiers ne quittent jamais cet appareil.",
+    "trustPill": "Vos fichiers ne quittent jamais cet appareil",
+    "typeLabel": "Que souhaitez-vous analyser ?"
+  },
+  "scanner": {
+    "types": {
+      "skill": { "label": "OpenClaw Skill", "sub": "Fichiers de skill ou crawsecure.json" },
+      "npm":   { "label": "Package NPM",    "sub": "Analyser n'importe quel package npm" },
+      "url":   { "label": "Site Web",       "sub": "Audit passif des headers et CSP" },
+      "github":{ "label": "Projet GitHub",  "sub": "Dépôt complet — public ou privé" }
+    },
+    "dropzone": {
+      "title": "Déposez crawsecure.json ou des fichiers de skill ici",
+      "click": "ou cliquez pour parcourir",
+      "accepts": "Analyse : .js .ts .json .sh · Détecte automatiquement crawsecure.json"
+    },
+    "tip": {
+      "prefix": "Conseil :",
+      "body": "générez d'abord un rapport avec le CLI :",
+      "cmd": "crawsecure ./my-skill --output crawsecure.json",
+      "suffix": "puis déposez le fichier ci-dessus pour une visualisation complète."
+    },
+    "scanning": "Analyse en local — rien n'est téléchargé…",
+    "scanAnother": "← Analyser une autre skill",
+    "trust": "Cette analyse s'est exécutée entièrement dans votre navigateur. Aucun fichier n'a été téléchargé.",
+    "trustLink": "En savoir plus →",
+    "findings": "Résultats",
+    "noFindings": "Aucun signal de sécurité détecté. Cette skill semble sûre.",
+    "filesScanned": "{count, plural, one {# fichier analysé} other {# fichiers analysés}}",
+    "levels": { "high": "Critique", "medium": "Avertissement", "low": "Info" },
+    "saveStatus": {
+      "saving": "Sauvegarde…",
+      "saved": "Sauvegardé dans le tableau de bord",
+      "limitReached": "Limite mensuelle atteinte",
+      "upgrade": "Passer à PRO",
+      "notSaved": "Non sauvegardé"
+    },
+    "pro": {
+      "badge": "PRO",
+      "featuresTitle": "Fonctionnalités PRO pour cette analyse",
+      "upgradeBtn": "Passer à PRO · $9/mois",
+      "exportTitle": "Exporter cette analyse en JSON",
+      "exportLock": "Débloquez l'export JSON avec PRO",
+      "exportBtn": "Exporter JSON",
+      "alsoUnlocked": "Également débloqué avec PRO",
+      "featureUnlimited": "Analyses illimitées",
+      "featureUnlimitedSub": "vs 10 / mois",
+      "featureHistory": "Historique complet (50)",
+      "featureHistorySub": "vs 5 derniers seulement",
+      "featureTrend": "Graphique d'évolution",
+      "featureTrendSub": "suivre la progression",
+      "featureStats": "Statistiques avancées",
+      "featureStatsSub": "moy · meilleur · règle principale"
+    },
+    "anonymous": {
+      "issuesFound": "{count, plural, one {# problème trouvé — connectez-vous gratuitement pour voir les règles} other {# problèmes trouvés — connectez-vous gratuitement pour voir les règles}}",
+      "tableFeature": "Fonctionnalité",
+      "tableNow": "Maintenant",
+      "tableFree": "Gratuit",
+      "tablePro": "PRO",
+      "signIn": "Se connecter",
+      "riskScore": "Score de risque",
+      "severityCounts": "Comptage par sévérité",
+      "ruleNames": "Règles déclenchées",
+      "filesAffected": "Fichiers concernés",
+      "autoSave": "Sauvegarde automatique",
+      "tenScans": "10 analyses / mois",
+      "unlimited": "Analyses illimitées",
+      "fullHistory": "Historique complet (50)",
+      "trendChart": "Graphique d'évolution",
+      "jsonExport": "Export JSON"
+    }
+  },
+  "dashboard": {
+    "title": "Vos Analyses",
+    "newScan": "Nouvelle analyse",
+    "empty": "Aucune analyse sauvegardée pour l'instant.",
+    "emptyLink": "Analyser votre première skill",
+    "historyNotice": "Plan Gratuit — {limit} dernières analyses uniquement",
+    "upgradeLink": "Passer à PRO pour l'historique complet",
+    "runningLow": "Peu d'analyses restantes",
+    "runningLowDesc": "{remaining} sur {limit} analyses gratuites restantes ce mois.",
+    "upgradePrompt": "Passez à PRO pour des analyses illimitées."
+  },
+  "settings": {
+    "title": "Paramètres du Compte",
+    "profile": "Profil",
+    "usage": "Utilisation",
+    "billing": "Facturation",
+    "plan": "Plan",
+    "manageBilling": "Gérer la facturation",
+    "upgradeCta": "Passer à PRO — $9/mois",
+    "upgradePrompt": "Vous êtes sur le plan Gratuit.",
+    "proPlanInfo": "Vous êtes sur le plan PRO à $9/mois.",
+    "scansUsed": "{used} / {limit} analyses utilisées ce mois",
+    "scansUnlimited": "{used} analyses ce mois · illimitées",
+    "apiKey": "Clé API",
+    "apiKeySoon": "Clé API pour CI/CD bientôt disponible."
+  },
+  "upgrade": {
+    "title": "Passer à PRO",
+    "subtitle": "$9 / mois · Annulez à tout moment",
+    "freePlan": "Gratuit (actuel)",
+    "proPlan": "PRO",
+    "button": "Passer à PRO",
+    "trust": "Votre code n'est jamais impliqué dans la facturation. Les paiements sont gérés par Stripe.",
+    "successTitle": "Vous êtes PRO !",
+    "successSubtitle": "Votre compte a été mis à niveau.",
+    "successButton": "Aller au tableau de bord"
+  }
+}

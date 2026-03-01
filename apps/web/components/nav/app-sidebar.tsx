@@ -3,19 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { ScanLine, LayoutDashboard, Settings, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const links = [
-  { href: "/analyze",   label: "Analyze",   icon: ScanLine },
-  { href: "/dashboard", label: "Dashboard",  icon: LayoutDashboard },
-  { href: "/settings",  label: "Settings",   icon: Settings },
-  { href: "/upgrade",   label: "Upgrade",    icon: Zap },
-];
 
 export function AppSidebar() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
+  const t = useTranslations("nav");
+
+  const links = [
+    { href: "/analyze",   label: t("analyze"),   icon: ScanLine },
+    { href: "/dashboard", label: t("dashboard"),  icon: LayoutDashboard },
+    { href: "/settings",  label: t("settings"),   icon: Settings },
+    { href: "/upgrade",   label: t("upgrade"),    icon: Zap },
+  ];
 
   // Only show sidebar for authenticated users
   if (status === "loading" || !session) return null;

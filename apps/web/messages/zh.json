@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "analyze": "分析",
+    "pricing": "定价",
+    "trust": "隐私",
+    "dashboard": "仪表板",
+    "settings": "设置",
+    "upgrade": "升级",
+    "signIn": "使用 GitHub 登录",
+    "signOut": "退出登录"
+  },
+  "common": {
+    "soon": "即将推出",
+    "pro": "PRO",
+    "free": "免费",
+    "offline": "离线",
+    "loading": "加载中…",
+    "tryAgain": "重试",
+    "newScan": "新建扫描",
+    "backToDashboard": "← 返回仪表板",
+    "learnMore": "了解更多 →",
+    "privacyLink": "隐私政策 →"
+  },
+  "home": {
+    "badge": "隐私优先 · 离线 · 开源",
+    "title": "扫描技能。\n保护您的代码。",
+    "subtitle": "CrawSecure 在您的浏览器中分析 ClawHub 技能的安全风险 — 您的文件永远不会离开您的设备。",
+    "ctaPrimary": "免费扫描技能",
+    "ctaSecondary": "查看定价"
+  },
+  "pricing": {
+    "title": "简单透明的定价",
+    "subtitle": "免费开始。需要更多时升级。"
+  },
+  "trust": {
+    "title": "信任与隐私",
+    "subtitle": "我们构建 CrawSecure 是为了打造一个我们自己也会信任的工具。"
+  },
+  "analyze": {
+    "title": "安全扫描器",
+    "description": "选择您想要分析的内容。所有扫描均在本地运行 — 您的文件永远不会离开此设备。",
+    "trustPill": "您的文件永远不会离开此设备",
+    "typeLabel": "您想分析什么？"
+  },
+  "scanner": {
+    "types": {
+      "skill": { "label": "OpenClaw 技能", "sub": "技能文件或 crawsecure.json" },
+      "npm":   { "label": "NPM 包",        "sub": "扫描任意 npm 包" },
+      "url":   { "label": "网站",           "sub": "被动 Header 和 CSP 审计" },
+      "github":{ "label": "GitHub 项目",   "sub": "完整仓库 — 公开或私有" }
+    },
+    "dropzone": {
+      "title": "将 crawsecure.json 或技能文件拖放到此处",
+      "click": "或点击浏览",
+      "accepts": "扫描：.js .ts .json .sh · 自动检测 crawsecure.json"
+    },
+    "tip": {
+      "prefix": "提示：",
+      "body": "首先使用 CLI 生成报告：",
+      "cmd": "crawsecure ./my-skill --output crawsecure.json",
+      "suffix": "然后将文件拖放到上方以获得完整可视化。"
+    },
+    "scanning": "本地扫描中 — 不会上传任何内容…",
+    "scanAnother": "← 扫描另一个技能",
+    "trust": "此扫描完全在您的浏览器中运行。没有文件被上传。",
+    "trustLink": "了解更多 →",
+    "findings": "发现",
+    "noFindings": "未发现安全信号。此技能看起来是安全的。",
+    "filesScanned": "已扫描 {count} 个文件",
+    "levels": { "high": "严重", "medium": "警告", "low": "提示" },
+    "saveStatus": {
+      "saving": "保存中…",
+      "saved": "已保存到仪表板",
+      "limitReached": "已达到每月限额",
+      "upgrade": "升级",
+      "notSaved": "未保存"
+    },
+    "pro": {
+      "badge": "PRO",
+      "featuresTitle": "此扫描的 PRO 功能",
+      "upgradeBtn": "升级 · $9/月",
+      "exportTitle": "将此扫描导出为 JSON",
+      "exportLock": "使用 PRO 解锁 JSON 导出",
+      "exportBtn": "导出 JSON",
+      "alsoUnlocked": "PRO 还可解锁",
+      "featureUnlimited": "无限次扫描",
+      "featureUnlimitedSub": "vs 每月 10 次",
+      "featureHistory": "完整历史记录（50条）",
+      "featureHistorySub": "vs 仅最近 5 条",
+      "featureTrend": "分数趋势图",
+      "featureTrendSub": "跟踪进度",
+      "featureStats": "高级规则统计",
+      "featureStatsSub": "平均 · 最佳 · 主要规则"
+    },
+    "anonymous": {
+      "issuesFound": "发现 {count} 个问题 — 免费登录以查看触发的规则",
+      "tableFeature": "功能",
+      "tableNow": "现在",
+      "tableFree": "免费",
+      "tablePro": "PRO",
+      "signIn": "登录",
+      "riskScore": "风险评分",
+      "severityCounts": "严重程度统计",
+      "ruleNames": "触发的规则",
+      "filesAffected": "受影响的文件",
+      "autoSave": "自动保存到历史记录",
+      "tenScans": "每月 10 次扫描",
+      "unlimited": "无限次扫描",
+      "fullHistory": "完整历史记录（50条）",
+      "trendChart": "分数趋势图",
+      "jsonExport": "JSON 导出"
+    }
+  },
+  "dashboard": {
+    "title": "您的扫描",
+    "newScan": "新建扫描",
+    "empty": "暂无已保存的扫描。",
+    "emptyLink": "扫描您的第一个技能",
+    "historyNotice": "免费计划 — 仅显示最近 {limit} 次扫描",
+    "upgradeLink": "升级以获得完整历史记录",
+    "runningLow": "剩余扫描次数不多",
+    "runningLowDesc": "本月剩余 {remaining} / {limit} 次免费扫描。",
+    "upgradePrompt": "升级到 PRO 以获得无限次扫描。"
+  },
+  "settings": {
+    "title": "账户设置",
+    "profile": "个人资料",
+    "usage": "使用情况",
+    "billing": "账单",
+    "plan": "计划",
+    "manageBilling": "管理账单",
+    "upgradeCta": "升级到 PRO — $9/月",
+    "upgradePrompt": "您正在使用免费计划。",
+    "proPlanInfo": "您正在使用 PRO 计划，$9/月。",
+    "scansUsed": "本月已使用 {used} / {limit} 次扫描",
+    "scansUnlimited": "本月 {used} 次扫描 · 无限制",
+    "apiKey": "API 密钥",
+    "apiKeySoon": "CI/CD API 密钥即将推出。"
+  },
+  "upgrade": {
+    "title": "升级到 PRO",
+    "subtitle": "$9 / 月 · 随时取消",
+    "freePlan": "免费（当前）",
+    "proPlan": "PRO",
+    "button": "升级到 PRO",
+    "trust": "您的代码与账单无关。付款由 Stripe 安全处理。",
+    "successTitle": "您已升级到 PRO！",
+    "successSubtitle": "您的账户已升级。",
+    "successButton": "前往仪表板"
+  }
+}
