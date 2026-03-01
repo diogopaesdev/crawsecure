@@ -1,21 +1,40 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import type { Metadata }    from "next";
+import { getServerSession } from "next-auth";
+import { redirect }         from "next/navigation";
+import { authOptions }      from "@/lib/auth";
+import { getStripe }        from "@/lib/stripe";
+import { updateUserPlan }   from "@/lib/scans";
+import { SuccessView }      from "@/components/upgrade/SuccessView";
 
 export const metadata: Metadata = { title: "Welcome to PRO" };
 
-export default function UpgradeSuccessPage() {
-  return (
-    <div className="flex flex-col items-center gap-6 py-16 text-center">
-      <span className="text-6xl">🎉</span>
-      <h1 className="text-2xl font-semibold">You are now on PRO!</h1>
-      <p className="text-muted-foreground text-sm max-w-sm">
-        Unlimited scans, advanced rules, and full history are now unlocked.
-        Your code still never leaves your machine.
-      </p>
-      <Button asChild>
-        <Link href="/analyze">Start scanning</Link>
-      </Button>
-    </div>
-  );
+export default async function UpgradeSuccessPage({
+  searchParams,
+}: {
+  searchParams: { session_id?: string };
+}) {
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/");
+
+  const { session_id } = searchParams;
+  if (!session_id) redirect("/upgrade");
+
+  // Verify payment directly with Stripe — do not rely solely on the webhook
+  // (webhook may fire slightly after the redirect)
+  try {
+    const checkoutSession = await getStripe().checkout.sessions.retrieve(session_id);
+
+    if (
+      checkoutSession.payment_status === "paid" &&
+      checkoutSession.metadata?.userId === session.user.id
+    ) {
+      // Idempotent: also handled by checkout.session.completed webhook
+      await updateUserPlan(session.user.id, "pro");
+    }
+  } catch {
+    // If Stripe verification fails, proceed — webhook will still fire
+  }
+
+  // SuccessView (client component) calls session.update() to refresh JWT
+  return <SuccessView />;
 }

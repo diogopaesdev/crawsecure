@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger }) {
       // First sign-in: create/fetch user in Firestore, store plan in JWT
       if (user && account) {
         token.githubId = account.providerAccountId;
@@ -47,6 +47,20 @@ export const authOptions: NextAuthOptions = {
           token.plan = "free";
         }
       }
+
+      // On session.update() (e.g. after Stripe upgrade), re-fetch plan from Firestore
+      if (trigger === "update" && token.sub) {
+        try {
+          const { db, FIREBASE_READY } = await import("./firebase-admin");
+          if (FIREBASE_READY && db) {
+            const doc = await db.collection("users").doc(token.sub).get();
+            if (doc.exists) token.plan = (doc.data()!.plan as "free" | "pro") ?? "free";
+          }
+        } catch {
+          // Keep existing plan on error
+        }
+      }
+
       return token;
     },
 

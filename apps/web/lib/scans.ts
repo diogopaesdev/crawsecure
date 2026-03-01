@@ -164,6 +164,29 @@ export async function saveScan(input: SaveScanInput): Promise<void> {
   });
 }
 
+export async function updateUserPlan(
+  userId: string,
+  plan: "free" | "pro",
+): Promise<void> {
+  if (!FIREBASE_READY || !db) return;
+  await db.collection("users").doc(userId).update({ plan });
+}
+
+export interface SubscriptionInput {
+  userId:               string;
+  stripeCustomerId:     string;
+  stripeSubscriptionId: string;
+  stripePriceId:        string;
+  status:               "active" | "canceled" | "past_due";
+  currentPeriodEnd:     Date;
+  cancelAtPeriodEnd:    boolean;
+}
+
+export async function saveSubscription(input: SubscriptionInput): Promise<void> {
+  if (!FIREBASE_READY || !db) return;
+  await db.collection("subscriptions").doc(input.userId).set(input, { merge: true });
+}
+
 export async function ensureUserDoc(
   userId: string,
   profile: { email?: string | null; name?: string | null; image?: string | null; githubId: string },
