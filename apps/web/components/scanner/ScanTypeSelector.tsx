@@ -38,8 +38,8 @@ const OPTIONS: ScanTypeOption[] = [
   },
   {
     id:    "github",
-    label: "GitHub Repo",
-    sub:   "Public repository scan",
+    label: "GitHub Project",
+    sub:   "Full repo — public or private",
     icon:  GitBranch,
     ready: false,
   },
