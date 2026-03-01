@@ -187,6 +187,17 @@ export async function saveSubscription(input: SubscriptionInput): Promise<void> 
   await db.collection("subscriptions").doc(input.userId).set(input, { merge: true });
 }
 
+export async function deleteScan(scanId: string, userId: string): Promise<void> {
+  if (!FIREBASE_READY || !db) return;
+
+  const ref = db.collection("scans").doc(scanId);
+  const doc = await ref.get();
+  if (!doc.exists) return;
+  if (doc.data()?.userId !== userId) throw new Error("Forbidden");
+
+  await ref.delete();
+}
+
 export async function ensureUserDoc(
   userId: string,
   profile: { email?: string | null; name?: string | null; image?: string | null; githubId: string },

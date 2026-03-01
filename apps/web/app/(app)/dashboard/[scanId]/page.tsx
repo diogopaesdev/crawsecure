@@ -6,6 +6,8 @@ import { authOptions }      from "@/lib/auth";
 import { getScanById }      from "@/lib/scans";
 import { getRuleMeta }      from "@/lib/rules-meta";
 import { ScoreGauge }       from "@/components/scanner/ScoreGauge";
+import { ExportReportButton } from "@/components/scanner/ExportReportButton";
+import { DeleteScanButton } from "@/components/dashboard/DeleteScanButton";
 import { Badge }            from "@/components/ui/badge";
 import { Button }           from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,17 +26,17 @@ const LEVEL_BADGE: Record<string, "destructive" | "secondary" | "outline"> = {
 export default async function ScanDetailPage({
   params,
 }: {
-  params: { scanId: string };
+  params: Promise<{ scanId: string }>;
 }) {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/");
 
-  const scan = await getScanById(params.scanId, session.user.id);
+  const { scanId } = await params;
+  const scan = await getScanById(scanId, session.user.id);
   if (!scan) notFound();
 
   const { score, risk, summary, rulesTriggered, filesScanned, createdAt } = scan;
 
-  // Enrich rule IDs with descriptions from rules-meta
   const enrichedRules = rulesTriggered.map((id) => ({ id, ...getRuleMeta(id) }));
   const byLevel = {
     high:   enrichedRules.filter(r => r.level === "high"),
@@ -45,10 +47,16 @@ export default async function ScanDetailPage({
   return (
     <div className="max-w-xl flex flex-col gap-4">
 
-      {/* Back */}
-      <Button asChild variant="ghost" size="sm" className="-ml-2 self-start text-muted-foreground">
-        <Link href="/dashboard">← Back to dashboard</Link>
-      </Button>
+      {/* Back + actions row */}
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <Button asChild variant="ghost" size="sm" className="-ml-2 text-muted-foreground">
+          <Link href="/dashboard">← Back to dashboard</Link>
+        </Button>
+        <div className="flex items-center gap-2">
+          <ExportReportButton scan={scan} />
+          <DeleteScanButton scanId={scan.id} />
+        </div>
+      </div>
 
       {/* Score */}
       <Card>
@@ -117,6 +125,7 @@ export default async function ScanDetailPage({
           Privacy policy →
         </Link>
       </p>
+
     </div>
   );
 }

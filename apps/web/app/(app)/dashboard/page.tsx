@@ -6,6 +6,8 @@ import { authOptions }      from "@/lib/auth";
 import { getUserScans, getUsage } from "@/lib/scans";
 import { ScanCard }         from "@/components/dashboard/ScanCard";
 import { UsageMeter }       from "@/components/dashboard/UsageMeter";
+import { StatsBar }         from "@/components/dashboard/StatsBar";
+import { ScoreTrendChart }  from "@/components/dashboard/ScoreTrendChart";
 import { Button }           from "@/components/ui/button";
 import { Badge }            from "@/components/ui/badge";
 
@@ -36,6 +38,14 @@ export default async function DashboardPage() {
       {/* Usage */}
       <UsageMeter usage={usage} plan={plan} />
 
+      {/* Aggregate stats — only if there are scans to summarise */}
+      {scans.length >= 2 && (
+        <div className="flex flex-col gap-3">
+          <StatsBar scans={scans} />
+          <ScoreTrendChart scans={scans} />
+        </div>
+      )}
+
       {/* History limit notice for free users */}
       {plan === "free" && scans.length > 0 && (
         <p className="text-xs text-muted-foreground">
@@ -43,7 +53,7 @@ export default async function DashboardPage() {
           <Link href="/upgrade" className="text-violet-600 hover:underline">
             Upgrade to PRO
           </Link>{" "}
-          for full history.
+          for full history (up to 50).
         </p>
       )}
 
