@@ -22,6 +22,27 @@ export const metadata: Metadata = {
   },
   description:
     "Privacy-first security scanner for ClawHub skills. Analysis runs locally — your files never leave your machine.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  openGraph: {
+    title: "CrawSecure — Scan skills. Keep your code.",
+    description:
+      "Privacy-first security scanner for ClawHub skills. Analysis runs locally — your files never leave your machine.",
+    url: "https://crawsecure.dev",
+    siteName: "CrawSecure",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "CrawSecure",
+    description: "Privacy-first security scanner for ClawHub skills.",
+  },
 };
 
 export default async function RootLayout({

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ShieldCheck } from "lucide-react";
+import Image from "next/image";
 import { UserMenu } from "./user-menu";
 
 export function MainNav() {
@@ -8,11 +8,9 @@ export function MainNav() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex h-16 items-center justify-between">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 font-semibold">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <ShieldCheck className="h-4 w-4" />
-          </div>
-          <span className="text-sm tracking-tight">CrawSecure</span>
+        <Link href="/" className="flex items-center gap-2.5">
+          <Image src="/icon.svg" alt="CrawSecure" width={28} height={28} priority />
+          <span className="text-sm font-semibold tracking-tight">CrawSecure</span>
         </Link>
 
         {/* Nav links */}

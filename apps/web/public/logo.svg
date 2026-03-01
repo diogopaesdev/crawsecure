@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#5b21b6"/>
+    </linearGradient>
+    <linearGradient id="scan" x1="0" y1="0" x2="48" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#c4b5fd" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ede9fe"/>
+      <stop offset="100%" stop-color="#c4b5fd" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon (48x48 shield centered in 48x48 box) -->
+  <path d="M24 3 L42 10.5 L42 25.5 C42 34.5 33 43.5 24 46.5 C15 43.5 6 34.5 6 25.5 L6 10.5 Z"
+        fill="url(#bg)" />
+  <path d="M24 6 L39 13 L39 25.5 C39 33 31.5 41.5 24 44.5 C16.5 41.5 9 33 9 25.5 L9 13 Z"
+        fill="white" fill-opacity="0.08" />
+  <rect x="13.5" y="23.25" width="21" height="1.5" rx="0.75" fill="url(#scan)" opacity="0.9"/>
+  <path d="M16.5 24 L21 28.5 L31.5 18.75" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Wordmark -->
+  <text x="56" y="31"
+        font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif"
+        font-size="17"
+        font-weight="600"
+        letter-spacing="-0.3"
+        fill="#0f0f11">
+    CrawSecure
+  </text>
+</svg>
