@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import type { UsageRecord } from "@/lib/scans";
 
 interface Props {
@@ -10,9 +9,13 @@ interface Props {
 export function UsageMeter({ usage, plan }: Props) {
   if (plan === "pro") {
     return (
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Badge>PRO</Badge>
-        <span>{usage.scansThisMonth} scans this month · unlimited</span>
+      <div className="flex items-center gap-2.5 text-sm">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+          PRO
+        </span>
+        <span className="text-muted-foreground">
+          {usage.scansThisMonth} scans this month · unlimited
+        </span>
       </div>
     );
   }
@@ -21,20 +24,20 @@ export function UsageMeter({ usage, plan }: Props) {
   const near = pct >= 80;
 
   return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-center justify-between text-sm">
+    <div className="flex flex-col gap-2 max-w-sm">
+      <div className="flex items-center justify-between text-xs">
         <span className="text-muted-foreground">
           {usage.scansThisMonth} / {usage.limit} scans this month
         </span>
         {near && (
-          <Link href="/upgrade" className="text-xs text-violet-600 hover:underline">
-            Upgrade to PRO →
+          <Link href="/upgrade" className="font-medium text-primary hover:underline underline-offset-4">
+            Upgrade →
           </Link>
         )}
       </div>
       <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
         <div
-          className={`h-full rounded-full transition-all ${near ? "bg-yellow-500" : "bg-violet-500"}`}
+          className={`h-full rounded-full transition-all ${near ? "bg-amber-500" : "bg-primary"}`}
           style={{ width: `${pct}%` }}
         />
       </div>
