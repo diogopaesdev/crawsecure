@@ -5,13 +5,14 @@ import { useRouter, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 
 const LOCALE_LABELS: Record<string, string> = {
-  en: "EN 🇺🇸",
-  pt: "PT 🇵🇹",
-  es: "ES 🇪🇸",
-  fr: "FR 🇫🇷",
-  de: "DE 🇩🇪",
-  zh: "中文 🇨🇳",
-  ja: "日本語 🇯🇵",
+  en:    "EN 🇺🇸",
+  pt:    "PT 🇵🇹",
+  "pt-BR": "PT-BR 🇧🇷",
+  es:    "ES 🇪🇸",
+  fr:    "FR 🇫🇷",
+  de:    "DE 🇩🇪",
+  zh:    "中文 🇨🇳",
+  ja:    "日本語 🇯🇵",
 };
 
 export function LocaleSwitcher() {

@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "analyze": "Analisar",
+    "pricing": "Preços",
+    "trust": "Privacidade",
+    "dashboard": "Painel",
+    "settings": "Configurações",
+    "upgrade": "Upgrade",
+    "signIn": "Entrar com GitHub",
+    "signOut": "Sair"
+  },
+  "common": {
+    "soon": "Em breve",
+    "pro": "PRO",
+    "free": "Grátis",
+    "offline": "Offline",
+    "loading": "Carregando…",
+    "tryAgain": "Tentar novamente",
+    "newScan": "Nova análise",
+    "backToDashboard": "← Voltar ao painel",
+    "learnMore": "Saiba mais →",
+    "privacyLink": "Política de privacidade →"
+  },
+  "home": {
+    "badge": "Privacidade · Offline · Open source",
+    "title": "Analise skills.\nProteja seu código.",
+    "subtitle": "O CrawSecure analisa skills do ClawHub em busca de riscos de segurança — inteiramente no seu navegador. Seus arquivos nunca saem do seu dispositivo.",
+    "ctaPrimary": "Analisar uma skill — grátis",
+    "ctaSecondary": "Ver preços"
+  },
+  "pricing": {
+    "title": "Preços simples e transparentes",
+    "subtitle": "Comece grátis. Faça upgrade quando precisar de mais."
+  },
+  "trust": {
+    "title": "Confiança e Privacidade",
+    "subtitle": "Criamos o CrawSecure para ser a ferramenta em que nós mesmos confiaríamos."
+  },
+  "analyze": {
+    "title": "Scanner de Segurança",
+    "description": "Escolha o que deseja analisar. Todas as análises rodam localmente — seus arquivos nunca saem deste dispositivo.",
+    "trustPill": "Seus arquivos nunca saem deste dispositivo",
+    "typeLabel": "O que você quer analisar?"
+  },
+  "scanner": {
+    "types": {
+      "skill": { "label": "OpenClaw Skill", "sub": "Arquivos da skill ou crawsecure.json" },
+      "npm":   { "label": "Pacote NPM",     "sub": "Analisar qualquer pacote npm" },
+      "url":   { "label": "Website",        "sub": "Auditoria passiva de headers e CSP" },
+      "github":{ "label": "Projeto GitHub", "sub": "Repositório completo — público ou privado" }
+    },
+    "dropzone": {
+      "title": "Arraste crawsecure.json ou arquivos da skill para cá",
+      "click": "ou clique para selecionar",
+      "accepts": "Analisa: .js .ts .json .sh · Detecta crawsecure.json automaticamente"
+    },
+    "tip": {
+      "prefix": "Dica:",
+      "body": "gere primeiro um relatório com o CLI:",
+      "cmd": "crawsecure ./my-skill --output crawsecure.json",
+      "suffix": "depois arraste o arquivo acima para visualização completa."
+    },
+    "scanning": "Analisando localmente — nada é enviado…",
+    "scanAnother": "← Analisar outra skill",
+    "trust": "Esta análise rodou inteiramente no seu navegador. Nenhum arquivo foi enviado.",
+    "trustLink": "Saiba mais →",
+    "findings": "Resultados",
+    "noFindings": "Nenhum sinal de segurança encontrado. Esta skill parece segura.",
+    "filesScanned": "{count, plural, one {# arquivo analisado} other {# arquivos analisados}}",
+    "levels": { "high": "Crítico", "medium": "Aviso", "low": "Info" },
+    "saveStatus": {
+      "saving": "Salvando…",
+      "saved": "Salvo no painel",
+      "limitReached": "Limite mensal atingido",
+      "upgrade": "Upgrade",
+      "notSaved": "Não salvo"
+    },
+    "pro": {
+      "badge": "PRO",
+      "featuresTitle": "Funcionalidades PRO para esta análise",
+      "upgradeBtn": "Upgrade · $9/mês",
+      "exportTitle": "Exportar esta análise como JSON",
+      "exportLock": "Desbloqueie a exportação JSON com o PRO",
+      "exportBtn": "Exportar JSON",
+      "alsoUnlocked": "Também desbloqueado com o PRO",
+      "featureUnlimited": "Análises ilimitadas",
+      "featureUnlimitedSub": "vs 10 / mês",
+      "featureHistory": "Histórico completo (50)",
+      "featureHistorySub": "vs últimas 5 apenas",
+      "featureTrend": "Gráfico de evolução",
+      "featureTrendSub": "acompanhe o progresso",
+      "featureStats": "Estatísticas avançadas",
+      "featureStatsSub": "média · melhor · principal regra"
+    },
+    "anonymous": {
+      "issuesFound": "{count, plural, one {# problema encontrado — entre gratuitamente para ver as regras} other {# problemas encontrados — entre gratuitamente para ver as regras}}",
+      "tableFeature": "Funcionalidade",
+      "tableNow": "Agora",
+      "tableFree": "Grátis",
+      "tablePro": "PRO",
+      "signIn": "Entrar",
+      "riskScore": "Pontuação de risco",
+      "severityCounts": "Contagem por severidade",
+      "ruleNames": "Regras ativadas",
+      "filesAffected": "Arquivos afetados",
+      "autoSave": "Salvar automaticamente",
+      "tenScans": "10 análises / mês",
+      "unlimited": "Análises ilimitadas",
+      "fullHistory": "Histórico completo (50)",
+      "trendChart": "Gráfico de evolução",
+      "jsonExport": "Exportação JSON"
+    }
+  },
+  "dashboard": {
+    "title": "Suas Análises",
+    "newScan": "Nova análise",
+    "empty": "Nenhuma análise salva ainda.",
+    "emptyLink": "Analise sua primeira skill",
+    "historyNotice": "Plano Grátis — apenas as últimas {limit} análises",
+    "upgradeLink": "Upgrade para histórico completo",
+    "runningLow": "Poucas análises restantes",
+    "runningLowDesc": "{remaining} de {limit} análises gratuitas restantes neste mês.",
+    "upgradePrompt": "Faça upgrade para PRO e tenha análises ilimitadas."
+  },
+  "settings": {
+    "title": "Configurações da Conta",
+    "profile": "Perfil",
+    "usage": "Uso",
+    "billing": "Cobrança",
+    "plan": "Plano",
+    "manageBilling": "Gerenciar cobrança",
+    "upgradeCta": "Upgrade para PRO — $9/mês",
+    "upgradePrompt": "Você está no plano Grátis.",
+    "proPlanInfo": "Você está no plano PRO por $9/mês.",
+    "scansUsed": "{used} / {limit} análises usadas neste mês",
+    "scansUnlimited": "{used} análises neste mês · ilimitadas",
+    "apiKey": "Chave de API",
+    "apiKeySoon": "Chave de API para CI/CD em breve."
+  },
+  "upgrade": {
+    "title": "Upgrade para PRO",
+    "subtitle": "$9 / mês · Cancele quando quiser",
+    "freePlan": "Grátis (atual)",
+    "proPlan": "PRO",
+    "button": "Upgrade para PRO",
+    "trust": "Seu código nunca está envolvido na cobrança. O pagamento é processado pelo Stripe.",
+    "successTitle": "Você é PRO!",
+    "successSubtitle": "Sua conta foi atualizada.",
+    "successButton": "Ir para o painel"
+  }
+}
