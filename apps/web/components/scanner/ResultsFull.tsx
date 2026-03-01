@@ -4,8 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { ScoreGauge } from "./ScoreGauge";
-import { exportScanJSON } from "@/lib/scanner";
+import { ScoreGauge }      from "./ScoreGauge";
+import { SaveScanButton }  from "./SaveScanButton";
+import { exportScanJSON }  from "@/lib/scanner";
 import type { Finding, ScanResult } from "@/types/scanner";
 
 const LEVEL_CONFIG = {
@@ -137,7 +138,9 @@ export function ResultsFull({ result, isPro }: Props) {
       )}
 
       {/* Actions */}
-      <div className="flex gap-2">
+      <div className="flex flex-wrap items-start gap-3">
+        <SaveScanButton result={result} />
+
         {isPro ? (
           <Button
             variant="outline"
@@ -149,7 +152,8 @@ export function ResultsFull({ result, isPro }: Props) {
         ) : (
           <Button variant="outline" size="sm" asChild>
             <a href="/upgrade">
-              Export JSON <Badge variant="secondary" className="ml-1.5 text-[10px]">PRO</Badge>
+              Export JSON{" "}
+              <Badge variant="secondary" className="ml-1.5 text-[10px]">PRO</Badge>
             </a>
           </Button>
         )}
