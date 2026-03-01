@@ -43,6 +43,6 @@ if (outputFile) {
   console.log(`\n📁 Report saved: ${outputFile}`);
 }
 
-console.log(`\n🌐 Visualize at → https://crawsecure.dev/analyze`);
+console.log(`\n🌐 Visualize at → https://crawsecure.com/analyze`);
 
 if (risk === "HIGH") process.exit(2);

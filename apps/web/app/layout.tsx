@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title:       "CrawSecure — Scan skills. Keep your code.",
     description: "Privacy-first security scanner for ClawHub skills. Analysis runs locally — your files never leave your machine.",
-    url:         "https://crawsecure.dev",
+    url:         "https://crawsecure.com",
     siteName:    "CrawSecure",
     locale:      "en_US",
     type:        "website",
