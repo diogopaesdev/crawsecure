@@ -3,13 +3,13 @@ import { getServerSession }  from "next-auth";
 import { z }                 from "zod";
 import { v4 as uuid }        from "uuid";
 import { authOptions }       from "@/lib/auth";
-import { saveScan, getUsage, FREE_SCAN_LIMIT } from "@/lib/scans";
+import { saveScan, FREE_SCAN_LIMIT } from "@/lib/scans";
 
 // ── Validation schema ──────────────────────────────────────────────────────
 // Only accepts aggregated signals — never file contents or paths.
 
 const saveScanSchema = z.object({
-  scanId: z.string().uuid().optional(),
+  // scanId is always generated server-side — never trusted from client (IDOR prevention)
   summary: z.object({
     critical: z.number().int().min(0).max(1000),
     warning:  z.number().int().min(0).max(1000),
@@ -49,27 +49,19 @@ export async function POST(request: Request) {
   const userId = session.user.id;
   const plan   = session.user.plan;
 
-  // Check usage limit
-  const usage = await getUsage(userId, plan);
-  if (usage.limit !== null && usage.scansThisMonth >= usage.limit) {
-    return NextResponse.json(
-      {
-        error:   "Monthly scan limit reached",
-        limit:   FREE_SCAN_LIMIT,
-        current: usage.scansThisMonth,
-        upgrade: "/upgrade",
-      },
-      { status: 429 },
-    );
-  }
-
-  // Persist to Firestore
-  const scanId = parsed.data.scanId ?? uuid();
+  // Persist to Firestore — limit is enforced atomically inside the transaction
+  const scanId = uuid();
   try {
-    await saveScan({ scanId, userId, summary, score, risk, rulesTriggered, filesScanned });
+    await saveScan({ scanId, userId, plan, summary, score, risk, rulesTriggered, filesScanned });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed to save scan";
-    return NextResponse.json({ error: message }, { status: 503 });
+    if (message === "LIMIT_REACHED") {
+      return NextResponse.json(
+        { error: "Monthly scan limit reached", limit: FREE_SCAN_LIMIT, upgrade: "/upgrade" },
+        { status: 429 },
+      );
+    }
+    return NextResponse.json({ error: "Failed to save scan" }, { status: 503 });
   }
 
   return NextResponse.json({ ok: true, scanId }, { status: 201 });

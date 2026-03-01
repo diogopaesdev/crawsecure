@@ -124,6 +124,7 @@ export async function getUsage(
 export interface SaveScanInput {
   scanId:         string;
   userId:         string;
+  plan:           "free" | "pro";
   summary:        ScanSummary;
   score:          number;
   risk:           RiskLevel;
@@ -140,10 +141,16 @@ export async function saveScan(input: SaveScanInput): Promise<void> {
   const usageId   = usageDocId(input.userId, period);
   const usageRef  = db.collection("usage").doc(usageId);
   const scansRef  = db.collection("scans").doc(input.scanId);
+  const limit     = input.plan === "pro" ? null : FREE_SCAN_LIMIT;
 
   await db.runTransaction(async (tx) => {
     const usageDoc = await tx.get(usageRef);
     const count    = usageDoc.exists ? (usageDoc.data()!.scansCount as number) : 0;
+
+    // Enforce limit atomically inside the transaction to prevent race conditions
+    if (limit !== null && count >= limit) {
+      throw new Error("LIMIT_REACHED");
+    }
 
     tx.set(scansRef, {
       id:             input.scanId,
