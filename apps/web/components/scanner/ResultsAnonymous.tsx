@@ -1,65 +1,89 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { Check, Minus, Lock, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ScoreGauge } from "./ScoreGauge";
 import type { ScanResult } from "@/types/scanner";
 
-const LEVEL_ICON: Record<string, string> = {
-  high:   "🔴",
-  medium: "🟡",
-  low:    "🔵",
+const LEVEL_DOT: Record<string, string> = {
+  high:   "bg-red-500",
+  medium: "bg-amber-500",
+  low:    "bg-blue-500",
 };
 
-const LEVEL_LABEL: Record<string, string> = {
-  high:   "Critical",
-  medium: "Warning",
-  info:   "Info",
+// Feature comparison data
+type FeatureRow = {
+  label:     string;
+  anon:      "yes" | "no" | "lock";
+  free:      "yes" | "no";
+  pro:       "yes" | "no";
 };
+
+const FEATURES: FeatureRow[] = [
+  { label: "Risk score",            anon: "yes",  free: "yes", pro: "yes" },
+  { label: "Severity counts",       anon: "yes",  free: "yes", pro: "yes" },
+  { label: "Rule names triggered",  anon: "lock", free: "yes", pro: "yes" },
+  { label: "Files affected",        anon: "lock", free: "yes", pro: "yes" },
+  { label: "Auto-save to history",  anon: "no",   free: "yes", pro: "yes" },
+  { label: "10 scans / month",      anon: "no",   free: "yes", pro: "yes" },
+  { label: "Unlimited scans",       anon: "no",   free: "no",  pro: "yes" },
+  { label: "Full history (50)",     anon: "no",   free: "no",  pro: "yes" },
+  { label: "Score trend chart",     anon: "no",   free: "no",  pro: "yes" },
+  { label: "JSON export",           anon: "no",   free: "no",  pro: "yes" },
+];
+
+function Cell({ value }: { value: "yes" | "no" | "lock" }) {
+  if (value === "yes")  return <Check className="h-3.5 w-3.5 text-emerald-500 mx-auto" />;
+  if (value === "lock") return <Lock  className="h-3 w-3 text-amber-500 mx-auto" />;
+  return <Minus className="h-3 w-3 text-muted-foreground/40 mx-auto" />;
+}
 
 interface Props {
   result: ScanResult;
 }
 
 export function ResultsAnonymous({ result }: Props) {
-  const { score, risk, summary, filesScanned } = result;
+  const { score, risk, summary, findings, filesScanned } = result;
   const totalIssues = summary.critical + summary.warning + summary.info;
 
-  // Fake rows that look like real findings — drives curiosity
   const placeholderRows = [
-    ...Array(summary.critical).fill("high"),
-    ...Array(summary.warning).fill("medium"),
-    ...Array(summary.info).fill("low"),
+    ...Array(Math.min(summary.critical, 4)).fill("high"),
+    ...Array(Math.min(summary.warning,  3)).fill("medium"),
+    ...Array(Math.min(summary.info,     2)).fill("low"),
   ];
 
   return (
     <div className="w-full max-w-xl flex flex-col gap-4">
 
-      {/* Score card */}
+      {/* ── Score card ─────────────────────────────────────────────────── */}
       <Card>
         <CardHeader className="pb-2">
           <ScoreGauge score={score} risk={risk} />
         </CardHeader>
-        <CardContent>
-          <div className="flex gap-6 text-sm">
+        <CardContent className="flex flex-col gap-3">
+          <div className="flex gap-5 text-sm">
             <span className="flex items-center gap-1.5">
-              🔴 <strong>{summary.critical}</strong> Critical
+              <span className="h-2 w-2 rounded-full bg-red-500" />
+              <strong>{summary.critical}</strong> Critical
             </span>
             <span className="flex items-center gap-1.5">
-              🟡 <strong>{summary.warning}</strong> Warnings
+              <span className="h-2 w-2 rounded-full bg-amber-500" />
+              <strong>{summary.warning}</strong> Warnings
             </span>
             <span className="flex items-center gap-1.5">
-              🔵 <strong>{summary.info}</strong> Info
+              <span className="h-2 w-2 rounded-full bg-blue-500" />
+              <strong>{summary.info}</strong> Info
             </span>
           </div>
-          <p className="text-xs text-muted-foreground mt-2">
+          <p className="text-xs text-muted-foreground">
             {filesScanned} file{filesScanned !== 1 ? "s" : ""} scanned
           </p>
         </CardContent>
       </Card>
 
-      {/* Blurred findings with overlay */}
+      {/* ── Blurred findings ───────────────────────────────────────────── */}
       {totalIssues > 0 && (
         <Card className="relative overflow-hidden">
           <CardContent className="pt-4">
@@ -70,48 +94,94 @@ export function ResultsAnonymous({ result }: Props) {
                   className="flex items-start gap-2 text-sm blur-sm pointer-events-none"
                   aria-hidden
                 >
-                  <span className="shrink-0 mt-0.5">{LEVEL_ICON[level]}</span>
+                  <span className={`mt-1.5 h-2 w-2 rounded-full shrink-0 ${LEVEL_DOT[level]}`} />
                   <div className="flex flex-col gap-0.5">
-                    <span className="font-medium">
-                      {LEVEL_LABEL[level]} — rule name hidden
+                    <span className="font-medium font-mono text-xs bg-muted rounded px-1">
+                      {level === "high" ? "eval" : level === "medium" ? "child-process" : "process-env"}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      path/to/affected/file.js · line XX
+                      src/affected/file.js · line {10 + i * 7}
                     </span>
                   </div>
                 </div>
               ))}
+              {totalIssues > placeholderRows.length && (
+                <p className="text-xs text-muted-foreground blur-sm">
+                  +{totalIssues - placeholderRows.length} more issues…
+                </p>
+              )}
             </div>
 
-            {/* Overlay CTA */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background/80 backdrop-blur-[2px]">
-              <p className="text-sm font-medium text-center px-4">
-                {totalIssues} issue{totalIssues !== 1 ? "s" : ""} found.
-                Sign in to see which rules were triggered and which files are affected.
+            {/* Lock overlay */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/75 backdrop-blur-[3px]">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-950/40">
+                <Lock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+              </div>
+              <p className="text-sm font-medium text-center px-6">
+                {totalIssues} issue{totalIssues !== 1 ? "s" : ""} found — sign in free to see exactly which rules fired
               </p>
-              <Button
-                onClick={() => {
-                  sessionStorage.setItem("CRAWSECURE_PENDING_SCAN", JSON.stringify(result));
-                  signIn("github", { callbackUrl: "/analyze" });
-                }}
-                className="gap-2"
-              >
-                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden>
-                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
-                </svg>
-                Sign in with GitHub — it&apos;s free
-              </Button>
-              <p className="text-xs text-muted-foreground">No credit card. No uploads.</p>
             </div>
           </CardContent>
         </Card>
       )}
 
-      {totalIssues === 0 && (
-        <div className="text-center text-sm text-muted-foreground py-4">
-          ✅ No issues found in this scan.
+      {/* ── Tier comparison ────────────────────────────────────────────── */}
+      <Card className="overflow-hidden">
+        <div className="grid grid-cols-[1fr_auto_auto_auto] items-center border-b border-border/60 bg-muted/40">
+          <div className="px-4 py-2.5 text-xs font-medium text-muted-foreground">Feature</div>
+          <div className="w-20 px-2 py-2.5 text-center text-xs font-medium text-muted-foreground">Now</div>
+          <div className="w-20 px-2 py-2.5 text-center text-xs font-semibold text-foreground">Free</div>
+          <div className="w-20 px-2 py-2.5 text-center">
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
+              <Zap className="h-3 w-3" /> PRO
+            </span>
+          </div>
         </div>
-      )}
+
+        <div className="divide-y divide-border/40">
+          {FEATURES.map(({ label, anon, free, pro }) => (
+            <div key={label} className="grid grid-cols-[1fr_auto_auto_auto] items-center">
+              <span className="px-4 py-2 text-xs text-muted-foreground">{label}</span>
+              <div className="w-20 py-2 text-center"><Cell value={anon} /></div>
+              <div className="w-20 py-2 text-center"><Cell value={free} /></div>
+              <div className="w-20 py-2 text-center bg-primary/[0.03]"><Cell value={pro} /></div>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-[1fr_auto_auto_auto] items-center border-t border-border/60 bg-muted/20 px-4 py-3 gap-2">
+          <div />
+          <div className="w-20" />
+          <div className="w-20 text-center">
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-7 text-xs w-full"
+              onClick={() => {
+                sessionStorage.setItem("CRAWSECURE_PENDING_SCAN", JSON.stringify(result));
+                signIn("github", { callbackUrl: "/analyze" });
+              }}
+            >
+              Sign in
+            </Button>
+          </div>
+          <div className="w-20 text-center">
+            <Button
+              size="sm"
+              className="h-7 text-xs w-full gap-1"
+              asChild
+            >
+              <a href="/upgrade">
+                <Zap className="h-3 w-3" /> PRO
+              </a>
+            </Button>
+          </div>
+        </div>
+      </Card>
+
+      <p className="text-xs text-muted-foreground text-center">
+        This scan ran entirely in your browser — no files were uploaded.
+      </p>
     </div>
   );
 }
