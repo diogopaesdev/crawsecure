@@ -1,10 +1,10 @@
 {
   "name": "crawsecure",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "summary": "Offline security scanner for ClawHub skills",
   "description": "Security scanner for ClawHub skills — detects dangerous commands and sensitive file access before installation.",
   "permissions": ["read-only"],
-  "entry": "bin/crawsecure.js",
+  "entry": "packages/cli/bin/crawsecure.js",
   "author": "CrawSecure",
   "license": "MIT",
   "tags": ["security", "scanner", "audit", "static-analysis"]

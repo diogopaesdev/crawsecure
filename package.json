@@ -1,21 +1,14 @@
 {
-  "name": "crawsecure",
-  "version": "1.1.0",
-  "description": "Security scanner for ClawHub skills",
+  "name": "crawsecure-monorepo",
+  "version": "2.0.0",
+  "private": true,
   "type": "module",
-  "bin": {
-    "crawsecure": "./bin/crawsecure.js"
-  },
-  "scripts": {
-    "start": "node bin/crawsecure.js",
-    "scan": "node bin/crawsecure.js"
-  },
-  "keywords": [
-    "security",
-    "scanner",
-    "clawhub",
-    "openclaw",
-    "skill"
+  "workspaces": [
+    "packages/*",
+    "apps/*"
   ],
+  "scripts": {
+    "scan": "node packages/cli/bin/crawsecure.js"
+  },
   "license": "MIT"
 }

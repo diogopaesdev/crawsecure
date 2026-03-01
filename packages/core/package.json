@@ -1,0 +1,14 @@
+{
+  "name": "@crawsecure/core",
+  "version": "2.0.0",
+  "description": "Shared scanning engine for CrawSecure — browser and Node.js compatible",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./rules": "./src/rules.js",
+    "./engine": "./src/engine.js",
+    "./scorer": "./src/scorer.js"
+  },
+  "license": "MIT"
+}

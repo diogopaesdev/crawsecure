@@ -1,0 +1,14 @@
+{
+  "name": "@crawsecure/browser",
+  "version": "2.0.0",
+  "description": "Browser-compatible CrawSecure engine with File API helpers",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "@crawsecure/core": "*"
+  },
+  "license": "MIT"
+}
