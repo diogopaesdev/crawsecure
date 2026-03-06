@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import {
   ShieldCheck, ScanLine, Eye, BarChart2, FileJson, Search, Github,
   Terminal, ChevronRight, Lock, Zap,
@@ -104,11 +104,11 @@ export default async function LandingPage() {
     <div className="flex flex-col min-h-screen">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative flex flex-col items-center text-center px-4 sm:px-6 pt-28 pb-20 gap-7 overflow-hidden">
+      <section className="relative flex flex-col items-center text-center px-4 sm:px-6 pt-20 sm:pt-28 pb-14 sm:pb-20 gap-5 sm:gap-7">
         {/* Gradient glow */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-[480px]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[400px] sm:h-[480px]"
           style={{
             background:
               "radial-gradient(ellipse 80% 60% at 50% -5%, oklch(0.52 0.24 285 / 0.12), transparent)",
@@ -123,7 +123,7 @@ export default async function LandingPage() {
           {t("badge")}
         </Badge>
 
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight max-w-3xl leading-[1.05]">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight max-w-3xl leading-[1.05]">
           {t("heroTitle1")}{" "}
           <span
             style={{
@@ -136,18 +136,18 @@ export default async function LandingPage() {
           </span>
         </h1>
 
-        <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
+        <p className="text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed">
           {t("heroSubtitle")}
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-3 mt-1">
-          <Button asChild size="lg" className="gap-2 shadow-sm">
+        <div className="flex flex-col xs:flex-row sm:flex-row gap-3 w-full sm:w-auto mt-1">
+          <Button asChild size="lg" className="gap-2 shadow-sm w-full sm:w-auto">
             <Link href="/analyze">
               <ScanLine className="h-4 w-4" />
               {t("ctaPrimary")}
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="gap-2">
+          <Button asChild variant="outline" size="lg" className="gap-2 w-full sm:w-auto">
             <a href="https://github.com/diogopaesdev/crawsecure" target="_blank" rel="noopener noreferrer">
               <Github className="h-4 w-4" />
               {t("ctaGitHub")}
@@ -156,13 +156,13 @@ export default async function LandingPage() {
         </div>
 
         {/* Trust pills */}
-        <div className="flex flex-wrap justify-center gap-3 mt-2">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-1">
           {pills.map(({ icon: Icon, text }) => (
             <span
               key={text}
               className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/60 border border-border/50 rounded-full px-3 py-1"
             >
-              <Icon className="h-3 w-3 text-primary" />
+              <Icon className="h-3 w-3 shrink-0 text-primary" />
               {text}
             </span>
           ))}
@@ -170,7 +170,7 @@ export default async function LandingPage() {
       </section>
 
       {/* ── CLI demo ─────────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 pb-20">
+      <section className="px-4 sm:px-6 pb-14 sm:pb-20">
         <div className="max-w-2xl mx-auto">
           <div className="rounded-2xl border border-border/60 bg-zinc-950 shadow-2xl overflow-hidden">
             <div className="flex items-center gap-1.5 px-4 py-3 border-b border-zinc-800/60">
@@ -182,7 +182,7 @@ export default async function LandingPage() {
                 Terminal
               </div>
             </div>
-            <pre className="p-6 text-[13px] font-mono text-zinc-300 whitespace-pre overflow-x-auto leading-[1.8]">
+            <pre className="p-4 sm:p-6 text-[11px] sm:text-[13px] font-mono text-zinc-300 whitespace-pre overflow-x-auto leading-[1.8]">
               {CLI_DEMO}
             </pre>
           </div>
@@ -190,18 +190,18 @@ export default async function LandingPage() {
       </section>
 
       {/* ── How it works ─────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-20 border-t border-border/50">
+      <section className="px-4 sm:px-6 py-14 sm:py-20 border-t border-border/50">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold tracking-tight mb-3">{t("howTitle")}</h2>
+          <div className="text-center mb-10 sm:mb-14">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">{t("howTitle")}</h2>
             <p className="text-muted-foreground text-sm max-w-md mx-auto">
               {t("howSubtitle")}
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-10">
+          <div className="grid sm:grid-cols-3 gap-8 sm:gap-10">
             {steps.map(({ step, title, description }) => (
-              <div key={step} className="flex flex-col gap-4">
-                <span className="text-[48px] font-mono font-bold leading-none text-primary/20 dark:text-primary/15 tabular-nums">
+              <div key={step} className="flex flex-col gap-3">
+                <span className="text-[40px] sm:text-[48px] font-mono font-bold leading-none text-primary/20 dark:text-primary/15 tabular-nums">
                   {step}
                 </span>
                 <div>
@@ -215,15 +215,15 @@ export default async function LandingPage() {
       </section>
 
       {/* ── Features ─────────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-20 border-t border-border/50">
+      <section className="px-4 sm:px-6 py-14 sm:py-20 border-t border-border/50">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold tracking-tight mb-3">{t("featTitle")}</h2>
+          <div className="text-center mb-10 sm:mb-14">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">{t("featTitle")}</h2>
             <p className="text-muted-foreground text-sm max-w-sm mx-auto">
               {t("featSubtitle")}
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {features.map(({ icon: Icon, title, description }) => (
               <Card key={title} className="border-border/60 bg-card hover:border-primary/30 transition-colors">
                 <CardContent className="pt-5 flex flex-col gap-3">
@@ -242,10 +242,10 @@ export default async function LandingPage() {
       </section>
 
       {/* ── Rules showcase ───────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-20 border-t border-border/50">
+      <section className="px-4 sm:px-6 py-14 sm:py-20 border-t border-border/50">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold tracking-tight mb-3">{t("rulesTitle")}</h2>
+          <div className="text-center mb-8 sm:mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">{t("rulesTitle")}</h2>
             <p className="text-sm text-muted-foreground">
               {t("rulesSubtitle")}{" "}
               <a
@@ -286,8 +286,8 @@ export default async function LandingPage() {
       </section>
 
       {/* ── Privacy strip ────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-16 border-t border-border/50">
-        <div className="max-w-2xl mx-auto text-center flex flex-col gap-5">
+      <section className="px-4 sm:px-6 py-12 sm:py-16 border-t border-border/50">
+        <div className="max-w-2xl mx-auto text-center flex flex-col gap-4 sm:gap-5">
           <div
             className="inline-flex h-12 w-12 mx-auto items-center justify-center rounded-2xl"
             style={{
@@ -296,7 +296,7 @@ export default async function LandingPage() {
           >
             <Lock className="h-5 w-5 text-white" />
           </div>
-          <h2 className="text-2xl font-bold tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
             {t("privTitle")}
           </h2>
           <p className="text-muted-foreground text-sm leading-relaxed">
@@ -312,9 +312,9 @@ export default async function LandingPage() {
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-20 border-t border-border/50">
+      <section className="px-4 sm:px-6 py-14 sm:py-20 border-t border-border/50">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold tracking-tight text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-center mb-8 sm:mb-10">
             {t("faqTitle")}
           </h2>
           <Accordion type="single" collapsible>
@@ -333,20 +333,20 @@ export default async function LandingPage() {
       </section>
 
       {/* ── Final CTA ────────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-24 border-t border-border/50">
-        <div className="max-w-xl mx-auto flex flex-col items-center gap-5 text-center">
-          <h2 className="text-3xl font-bold tracking-tight">{t("ctaTitle")}</h2>
+      <section className="px-4 sm:px-6 py-16 sm:py-24 border-t border-border/50">
+        <div className="max-w-xl mx-auto flex flex-col items-center gap-4 sm:gap-5 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("ctaTitle")}</h2>
           <p className="text-muted-foreground text-sm">
             {t("ctaSubtitle")}
           </p>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Button asChild size="lg" className="gap-2 shadow-sm">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <Button asChild size="lg" className="gap-2 shadow-sm w-full sm:w-auto">
               <Link href="/analyze">
                 <ScanLine className="h-4 w-4" />
                 {t("ctaOpen")}
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
               <Link href="/pricing">{t("ctaPlans")}</Link>
             </Button>
           </div>
