@@ -13,6 +13,40 @@ export function formatReport(findings, score, risk) {
 }
 
 /**
+ * Print a header line showing the logged-in user.
+ * @param {{ name: string, plan: string } | null} auth
+ */
+export function formatHeader(auth) {
+  if (!auth) return "";
+  const planLabel = auth.plan === "pro" ? "PRO" : "FREE";
+  const inner     = `  CrawSecure v2  ·  @${auth.name}  [${planLabel}]`;
+  const width     = Math.max(inner.length + 2, 48);
+  const bar       = "─".repeat(width);
+  return `┌${bar}┐\n│${inner.padEnd(width)}│\n└${bar}┘`;
+}
+
+/**
+ * Format a successful cloud save result.
+ * @param {{ scanId: string, plan: string, remaining: number | null, limit: number | null }} opts
+ */
+export function formatSaveResult({ scanId, plan, remaining, limit }) {
+  const url   = `https://crawsecure.com/dashboard/${scanId}`;
+  const lines = [`\n  Scan saved  →  ${url}`];
+
+  if (plan === "pro") {
+    lines.push("  PRO · unlimited scans");
+  } else {
+    const used = limit !== null ? (limit - (remaining ?? 0)) : "?";
+    lines.push(`  Free · ${used} / ${limit ?? 10} scans this month`);
+    if (remaining !== null && remaining <= 3) {
+      lines.push(`  Upgrade → https://crawsecure.com/upgrade`);
+    }
+  }
+
+  return lines.join("\n");
+}
+
+/**
  * Builds the crawsecure.json payload.
  * Contains only aggregated signals — no file contents, no code snippets.
  */

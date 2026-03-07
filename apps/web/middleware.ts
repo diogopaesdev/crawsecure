@@ -22,8 +22,12 @@ export default async function middleware(req: NextRequest) {
   if (pathname.startsWith("/api/")) {
     const needsAuth = PROTECTED_API.some(p => pathname.startsWith(p));
     if (needsAuth) {
-      const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-      if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      // Allow Bearer API keys — route handler (resolveAuth) will validate them
+      const authHeader = req.headers.get("Authorization") ?? "";
+      if (!authHeader.startsWith("Bearer cws_")) {
+        const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+        if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
     }
     return NextResponse.next();
   }

@@ -202,8 +202,14 @@
     "proPlanInfo": "您正在使用 PRO 计划，$9/月。",
     "scansUsed": "本月已使用 {used} / {limit} 次扫描",
     "scansUnlimited": "本月 {used} 次扫描 · 无限制",
-    "apiKey": "API 密钥",
-    "apiKeySoon": "CI/CD API 密钥即将推出。"
+    "apiKey": "CLI API 密钥",
+    "apiKeyDesc": "使用此密钥与 crawsecure CLI 将扫描结果保存到您的账户。",
+    "apiKeyNone": "尚未生成密钥。运行 crawsecure login 以生成。",
+    "apiKeyCreated": "创建于 {date}",
+    "apiKeyRegenerate": "重新生成",
+    "apiKeyRegenerating": "正在生成…",
+    "apiKeyNewKey": "已生成新密钥 — 请立即复制，此后不再显示。",
+    "apiKeyAvailableAll": "适用于免费和 PRO 计划。"
   },
   "upgrade": {
     "title": "升级到 PRO",

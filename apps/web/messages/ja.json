@@ -202,8 +202,14 @@
     "proPlanInfo": "PRO プラン（$9/月）をご利用中です。",
     "scansUsed": "今月 {used} / {limit} 回使用",
     "scansUnlimited": "今月 {used} 回 · 無制限",
-    "apiKey": "API キー",
-    "apiKeySoon": "CI/CD 用 API キーは近日公開予定です。"
+    "apiKey": "CLI API キー",
+    "apiKeyDesc": "このキーを crawsecure CLI で使用して、スキャン結果をアカウントに保存します。",
+    "apiKeyNone": "まだキーが生成されていません。crawsecure login を実行してください。",
+    "apiKeyCreated": "{date} に作成",
+    "apiKeyRegenerate": "再生成",
+    "apiKeyRegenerating": "再生成中…",
+    "apiKeyNewKey": "新しいキーが生成されました — 今すぐコピーしてください。再表示されません。",
+    "apiKeyAvailableAll": "無料プランと PRO プランで利用可能。"
   },
   "upgrade": {
     "title": "PRO にアップグレード",

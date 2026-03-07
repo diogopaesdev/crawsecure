@@ -202,8 +202,14 @@
     "proPlanInfo": "Sie nutzen den PRO-Plan für $9/Monat.",
     "scansUsed": "{used} / {limit} Scans diesen Monat verwendet",
     "scansUnlimited": "{used} Scans diesen Monat · unbegrenzt",
-    "apiKey": "API-Schlüssel",
-    "apiKeySoon": "CI/CD-API-Schlüssel demnächst verfügbar."
+    "apiKey": "CLI-API-Schlüssel",
+    "apiKeyDesc": "Verwenden Sie diesen Schlüssel mit der crawsecure CLI, um Scans in Ihrem Konto zu speichern.",
+    "apiKeyNone": "Noch kein Schlüssel generiert. Führen Sie crawsecure login aus.",
+    "apiKeyCreated": "Erstellt am {date}",
+    "apiKeyRegenerate": "Neu generieren",
+    "apiKeyRegenerating": "Wird generiert…",
+    "apiKeyNewKey": "Neuer Schlüssel generiert — jetzt kopieren, er wird nicht erneut angezeigt.",
+    "apiKeyAvailableAll": "Verfügbar in Free- und PRO-Plänen."
   },
   "upgrade": {
     "title": "Upgrade auf PRO",
