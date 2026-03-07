@@ -202,8 +202,14 @@
     "proPlanInfo": "Estás no plano PRO a $9/mês.",
     "scansUsed": "{used} / {limit} análises usadas este mês",
     "scansUnlimited": "{used} análises este mês · ilimitadas",
-    "apiKey": "Chave API",
-    "apiKeySoon": "Chave API para CI/CD em breve."
+    "apiKey": "Chave API do CLI",
+    "apiKeyDesc": "Usa esta chave com o CLI crawsecure para guardar análises na tua conta.",
+    "apiKeyNone": "Nenhuma chave gerada ainda. Corre crawsecure login para gerar uma.",
+    "apiKeyCreated": "Criada em {date}",
+    "apiKeyRegenerate": "Regenerar",
+    "apiKeyRegenerating": "A regenerar…",
+    "apiKeyNewKey": "Nova chave gerada — copia-a agora, não será mostrada novamente.",
+    "apiKeyAvailableAll": "Disponível nos planos Gratuito e PRO."
   },
   "upgrade": {
     "title": "Upgrade para PRO",
