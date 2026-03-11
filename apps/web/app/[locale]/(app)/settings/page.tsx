@@ -4,13 +4,14 @@ import { redirect }             from "next/navigation";
 import Link                     from "next/link";
 import { getTranslations }      from "next-intl/server";
 import { authOptions }          from "@/lib/auth";
-import { getUsage }             from "@/lib/scans";
+import { getUsage, getCliKeyMeta } from "@/lib/scans";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge }                from "@/components/ui/badge";
 import { Button }               from "@/components/ui/button";
 import { Separator }            from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ManageBillingButton }  from "@/components/upgrade/ManageBillingButton";
+import { CliApiKeySection }     from "@/components/settings/CliApiKeySection";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("settings");
@@ -24,7 +25,10 @@ export default async function SettingsPage() {
   const t = await getTranslations("settings");
   const tCommon = await getTranslations("common");
   const { id: userId, plan, name, email, image } = session.user;
-  const usage = await getUsage(userId, plan);
+  const [usage, cliKey] = await Promise.all([
+    getUsage(userId, plan),
+    getCliKeyMeta(userId),
+  ]);
 
   const initials = name
     ?.split(" ")
@@ -105,18 +109,31 @@ export default async function SettingsPage() {
         </CardContent>
       </Card>
 
-      {/* API key — PRO only */}
-      {plan === "pro" && (
-        <>
-          <Separator />
-          <Card>
-            <CardHeader><CardTitle className="text-base">{t("apiKey")}</CardTitle></CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">{t("apiKeySoon")}</p>
-            </CardContent>
-          </Card>
-        </>
-      )}
+      {/* CLI API Key */}
+      <>
+        <Separator />
+        <Card>
+          <CardHeader><CardTitle className="text-base">{t("apiKey")}</CardTitle></CardHeader>
+          <CardContent>
+            <CliApiKeySection
+              hasKey={cliKey.hasKey}
+              createdDate={
+                cliKey.createdAt
+                  ? new Date(cliKey.createdAt).toLocaleDateString()
+                  : null
+              }
+              labels={{
+                desc:         t("apiKeyDesc"),
+                none:         t("apiKeyNone"),
+                created:      t("apiKeyCreated"),
+                regenerate:   t("apiKeyRegenerate"),
+                regenerating: t("apiKeyRegenerating"),
+                newKey:       t("apiKeyNewKey"),
+              }}
+            />
+          </CardContent>
+        </Card>
+      </>
     </div>
   );
 }

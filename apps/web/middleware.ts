@@ -6,7 +6,7 @@ import { routing } from "./i18n/routing";
 const intlMiddleware = createMiddleware(routing);
 
 // Routes that require authentication (page routes, without locale prefix)
-const PROTECTED_PAGES = ["/dashboard", "/settings", "/upgrade", "/analyze"];
+const PROTECTED_PAGES = ["/dashboard", "/settings", "/upgrade"];
 // API routes that require authentication
 const PROTECTED_API   = ["/api/scans", "/api/checkout", "/api/portal", "/api/usage"];
 
@@ -22,8 +22,12 @@ export default async function middleware(req: NextRequest) {
   if (pathname.startsWith("/api/")) {
     const needsAuth = PROTECTED_API.some(p => pathname.startsWith(p));
     if (needsAuth) {
-      const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-      if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      // Allow Bearer API keys — route handler (resolveAuth) will validate them
+      const authHeader = req.headers.get("Authorization") ?? "";
+      if (!authHeader.startsWith("Bearer cws_")) {
+        const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+        if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
     }
     return NextResponse.next();
   }

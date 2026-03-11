@@ -1,14 +1,13 @@
-import { NextResponse }     from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions }      from "@/lib/auth";
-import { getUsage }         from "@/lib/scans";
+import { NextResponse } from "next/server";
+import { resolveAuth }  from "@/lib/api-auth";
+import { getUsage }     from "@/lib/scans";
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+export async function GET(request: Request) {
+  const auth = await resolveAuth(request);
+  if (!auth) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const usage = await getUsage(session.user.id, session.user.plan);
+  const usage = await getUsage(auth.userId, auth.plan);
   return NextResponse.json(usage);
 }

@@ -112,10 +112,22 @@
   },
   "scanner": {
     "types": {
-      "skill": { "label": "OpenClaw Skill",   "sub": "Skill-Dateien oder crawsecure.json" },
-      "npm":   { "label": "NPM-Paket",         "sub": "Beliebiges npm-Paket scannen" },
-      "url":   { "label": "Website",           "sub": "Passiver Header- & CSP-Audit" },
-      "github":{ "label": "GitHub-Projekt",    "sub": "Vollständiges Repository — öffentlich oder privat" }
+      "skill": {
+        "label": "OpenClaw Skill",
+        "sub": "Skill-Dateien oder crawsecure.json"
+      },
+      "npm": {
+        "label": "NPM-Paket",
+        "sub": "Beliebiges npm-Paket scannen"
+      },
+      "url": {
+        "label": "Website",
+        "sub": "Passiver Header- & CSP-Audit"
+      },
+      "github": {
+        "label": "GitHub-Projekt",
+        "sub": "Vollständiges Repository — öffentlich oder privat"
+      }
     },
     "dropzone": {
       "title": "crawsecure.json oder Skill-Dateien hier ablegen",
@@ -135,7 +147,11 @@
     "findings": "Befunde",
     "noFindings": "Keine Sicherheitssignale gefunden. Dieser Skill scheint sicher.",
     "filesScanned": "{count, plural, one {# Datei gescannt} other {# Dateien gescannt}}",
-    "levels": { "high": "Kritisch", "medium": "Warnung", "low": "Info" },
+    "levels": {
+      "high": "Kritisch",
+      "medium": "Warnung",
+      "low": "Info"
+    },
     "saveStatus": {
       "saving": "Speichern…",
       "saved": "Im Dashboard gespeichert",
@@ -161,22 +177,14 @@
       "featureStatsSub": "Durchschn. · Bester · Top-Regel"
     },
     "anonymous": {
-      "issuesFound": "{count, plural, one {# Problem gefunden — kostenlos anmelden, um Regeln zu sehen} other {# Probleme gefunden — kostenlos anmelden, um Regeln zu sehen}}",
-      "tableFeature": "Funktion",
-      "tableNow": "Jetzt",
-      "tableFree": "Kostenlos",
-      "tablePro": "PRO",
-      "signIn": "Anmelden",
-      "riskScore": "Risikobewertung",
-      "severityCounts": "Anzahl nach Schweregrad",
-      "ruleNames": "Ausgelöste Regeln",
-      "filesAffected": "Betroffene Dateien",
-      "autoSave": "Automatisch speichern",
-      "tenScans": "10 Scans / Monat",
-      "unlimited": "Unbegrenzte Scans",
-      "fullHistory": "Vollständige Historie (50)",
-      "trendChart": "Entwicklungsdiagramm",
-      "jsonExport": "JSON-Export"
+      "guestUsed": "{used} of {limit} guest scans used",
+      "guestRemaining": "{remaining} left",
+      "guestCtaBody": "Sign in free to save scans, track history and get 10 scans/month. Upgrade to PRO for unlimited.",
+      "guestLimitTitle": "Guest scan limit reached",
+      "guestLimitBody": "You've used all 3 free guest scans. Sign in to get 10 scans/month for free.",
+      "signInForMore": "sign in for more",
+      "signIn": "Sign in with GitHub",
+      "upgradePro": "PRO · unlimited"
     }
   },
   "dashboard": {
@@ -202,8 +210,14 @@
     "proPlanInfo": "Sie nutzen den PRO-Plan für $9/Monat.",
     "scansUsed": "{used} / {limit} Scans diesen Monat verwendet",
     "scansUnlimited": "{used} Scans diesen Monat · unbegrenzt",
-    "apiKey": "API-Schlüssel",
-    "apiKeySoon": "CI/CD-API-Schlüssel demnächst verfügbar."
+    "apiKey": "CLI-API-Schlüssel",
+    "apiKeyDesc": "Verwenden Sie diesen Schlüssel mit der crawsecure CLI, um Scans in Ihrem Konto zu speichern.",
+    "apiKeyNone": "Noch kein Schlüssel generiert. Führen Sie crawsecure login aus.",
+    "apiKeyCreated": "Erstellt am {date}",
+    "apiKeyRegenerate": "Neu generieren",
+    "apiKeyRegenerating": "Wird generiert…",
+    "apiKeyNewKey": "Neuer Schlüssel generiert — jetzt kopieren, er wird nicht erneut angezeigt.",
+    "apiKeyAvailableAll": "Verfügbar in Free- und PRO-Plänen."
   },
   "upgrade": {
     "title": "Upgrade auf PRO",
