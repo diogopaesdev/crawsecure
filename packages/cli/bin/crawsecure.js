@@ -3,8 +3,8 @@
 import fs from "fs";
 import { scanFiles, computeScore, classifyRisk, summarize } from "@crawsecure/core";
 import { readFiles }        from "../src/walker.js";
-import { formatReport, toOutputJSON, formatHeader, formatSaveResult } from "../src/reporter.js";
-import { getStoredAuth, clearAuth, getAuthHeaders } from "../src/auth.js";
+import { formatReport, toOutputJSON, formatHeader, formatSaveResult, formatGuestCTA } from "../src/reporter.js";
+import { getStoredAuth, clearAuth, getAuthHeaders, getGuestCount, incrementGuestCount, GUEST_SCAN_LIMIT } from "../src/auth.js";
 import { runLogin }         from "../src/github-device-flow.js";
 
 const BASE_URL = process.env.CRAWSECURE_URL ?? "https://crawsecure.com";
@@ -54,12 +54,23 @@ const outputFile = outputIdx !== -1 ? args[outputIdx + 1] : null;
 
 const auth = getStoredAuth();
 
+// ── Guest scan gate ───────────────────────────────────────────────────────────
+if (!auth) {
+  const guestCount = getGuestCount();
+  if (guestCount >= GUEST_SCAN_LIMIT) {
+    console.log(`\n  Guest scan limit reached (${GUEST_SCAN_LIMIT} scans).`);
+    console.log("  Run `crawsecure login` to get 10 free scans/month.\n");
+    process.exit(1);
+  }
+}
+
 // Print header if logged in
 if (auth) {
   console.log(formatHeader(auth));
   console.log("");
 } else {
-  console.log("🔍 CrawSecure v2 running...");
+  const guestCount = getGuestCount();
+  console.log(`🔍 CrawSecure v2 running... (guest scan ${guestCount + 1}/${GUEST_SCAN_LIMIT})`);
 }
 
 console.log("Target:", target);
@@ -137,7 +148,8 @@ if (auth) {
     console.log("\n  Could not reach CrawSecure to save scan.");
   }
 } else {
-  console.log(`\n  Run \`crawsecure login\` to save scans to your account.`);
+  const used = incrementGuestCount();
+  console.log(formatGuestCTA(used, GUEST_SCAN_LIMIT));
 }
 
 if (risk === "HIGH") process.exit(2);

@@ -6,7 +6,7 @@ import { routing } from "./i18n/routing";
 const intlMiddleware = createMiddleware(routing);
 
 // Routes that require authentication (page routes, without locale prefix)
-const PROTECTED_PAGES = ["/dashboard", "/settings", "/upgrade", "/analyze"];
+const PROTECTED_PAGES = ["/dashboard", "/settings", "/upgrade"];
 // API routes that require authentication
 const PROTECTED_API   = ["/api/scans", "/api/checkout", "/api/portal", "/api/usage"];
 

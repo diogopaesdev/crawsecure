@@ -112,10 +112,22 @@
   },
   "scanner": {
     "types": {
-      "skill": { "label": "OpenClaw Skill", "sub": "Ficheiros da skill ou crawsecure.json" },
-      "npm":   { "label": "Pacote NPM",     "sub": "Analisar qualquer pacote npm" },
-      "url":   { "label": "Website",        "sub": "Auditoria passiva de headers e CSP" },
-      "github":{ "label": "Projeto GitHub", "sub": "Repositório completo — público ou privado" }
+      "skill": {
+        "label": "OpenClaw Skill",
+        "sub": "Ficheiros da skill ou crawsecure.json"
+      },
+      "npm": {
+        "label": "Pacote NPM",
+        "sub": "Analisar qualquer pacote npm"
+      },
+      "url": {
+        "label": "Website",
+        "sub": "Auditoria passiva de headers e CSP"
+      },
+      "github": {
+        "label": "Projeto GitHub",
+        "sub": "Repositório completo — público ou privado"
+      }
     },
     "dropzone": {
       "title": "Arrasta crawsecure.json ou ficheiros da skill para aqui",
@@ -135,7 +147,11 @@
     "findings": "Resultados",
     "noFindings": "Nenhum sinal de segurança encontrado. Esta skill parece segura.",
     "filesScanned": "{count, plural, one {# ficheiro analisado} other {# ficheiros analisados}}",
-    "levels": { "high": "Crítico", "medium": "Aviso", "low": "Info" },
+    "levels": {
+      "high": "Crítico",
+      "medium": "Aviso",
+      "low": "Info"
+    },
     "saveStatus": {
       "saving": "A guardar…",
       "saved": "Guardado no painel",
@@ -161,22 +177,14 @@
       "featureStatsSub": "média · melhor · regra principal"
     },
     "anonymous": {
-      "issuesFound": "{count, plural, one {# problema encontrado — entra gratuitamente para ver as regras} other {# problemas encontrados — entra gratuitamente para ver as regras}}",
-      "tableFeature": "Funcionalidade",
-      "tableNow": "Agora",
-      "tableFree": "Grátis",
-      "tablePro": "PRO",
-      "signIn": "Entrar",
-      "riskScore": "Pontuação de risco",
-      "severityCounts": "Contagem por severidade",
-      "ruleNames": "Regras ativadas",
-      "filesAffected": "Ficheiros afetados",
-      "autoSave": "Guardar automaticamente",
-      "tenScans": "10 análises / mês",
-      "unlimited": "Análises ilimitadas",
-      "fullHistory": "Histórico completo (50)",
-      "trendChart": "Gráfico de evolução",
-      "jsonExport": "Exportação JSON"
+      "guestUsed": "{used} of {limit} guest scans used",
+      "guestRemaining": "{remaining} left",
+      "guestCtaBody": "Sign in free to save scans, track history and get 10 scans/month. Upgrade to PRO for unlimited.",
+      "guestLimitTitle": "Guest scan limit reached",
+      "guestLimitBody": "You've used all 3 free guest scans. Sign in to get 10 scans/month for free.",
+      "signInForMore": "sign in for more",
+      "signIn": "Sign in with GitHub",
+      "upgradePro": "PRO · unlimited"
     }
   },
   "dashboard": {

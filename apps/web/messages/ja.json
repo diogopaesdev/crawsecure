@@ -112,10 +112,22 @@
   },
   "scanner": {
     "types": {
-      "skill": { "label": "OpenClaw スキル",  "sub": "スキルファイルまたは crawsecure.json" },
-      "npm":   { "label": "NPM パッケージ",   "sub": "任意の npm パッケージをスキャン" },
-      "url":   { "label": "ウェブサイト",      "sub": "ヘッダーと CSP のパッシブ監査" },
-      "github":{ "label": "GitHub プロジェクト","sub": "完全なリポジトリ — パブリックまたはプライベート" }
+      "skill": {
+        "label": "OpenClaw スキル",
+        "sub": "スキルファイルまたは crawsecure.json"
+      },
+      "npm": {
+        "label": "NPM パッケージ",
+        "sub": "任意の npm パッケージをスキャン"
+      },
+      "url": {
+        "label": "ウェブサイト",
+        "sub": "ヘッダーと CSP のパッシブ監査"
+      },
+      "github": {
+        "label": "GitHub プロジェクト",
+        "sub": "完全なリポジトリ — パブリックまたはプライベート"
+      }
     },
     "dropzone": {
       "title": "crawsecure.json またはスキルファイルをここにドロップ",
@@ -135,7 +147,11 @@
     "findings": "検出結果",
     "noFindings": "セキュリティシグナルは見つかりませんでした。このスキルは安全なようです。",
     "filesScanned": "{count} ファイルをスキャン",
-    "levels": { "high": "重大", "medium": "警告", "low": "情報" },
+    "levels": {
+      "high": "重大",
+      "medium": "警告",
+      "low": "情報"
+    },
     "saveStatus": {
       "saving": "保存中…",
       "saved": "ダッシュボードに保存しました",
@@ -161,22 +177,14 @@
       "featureStatsSub": "平均 · 最高 · トップルール"
     },
     "anonymous": {
-      "issuesFound": "{count} 件の問題が見つかりました — 無料でサインインしてルールを確認",
-      "tableFeature": "機能",
-      "tableNow": "現在",
-      "tableFree": "無料",
-      "tablePro": "PRO",
-      "signIn": "サインイン",
-      "riskScore": "リスクスコア",
-      "severityCounts": "深刻度別カウント",
-      "ruleNames": "トリガーされたルール",
-      "filesAffected": "影響を受けるファイル",
-      "autoSave": "履歴への自動保存",
-      "tenScans": "月 10 回のスキャン",
-      "unlimited": "無制限のスキャン",
-      "fullHistory": "完全な履歴（50件）",
-      "trendChart": "スコアトレンドグラフ",
-      "jsonExport": "JSON エクスポート"
+      "guestUsed": "{used} of {limit} guest scans used",
+      "guestRemaining": "{remaining} left",
+      "guestCtaBody": "Sign in free to save scans, track history and get 10 scans/month. Upgrade to PRO for unlimited.",
+      "guestLimitTitle": "Guest scan limit reached",
+      "guestLimitBody": "You've used all 3 free guest scans. Sign in to get 10 scans/month for free.",
+      "signInForMore": "sign in for more",
+      "signIn": "Sign in with GitHub",
+      "upgradePro": "PRO · unlimited"
     }
   },
   "dashboard": {

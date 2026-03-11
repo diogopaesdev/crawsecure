@@ -112,10 +112,22 @@
   },
   "scanner": {
     "types": {
-      "skill": { "label": "OpenClaw 技能", "sub": "技能文件或 crawsecure.json" },
-      "npm":   { "label": "NPM 包",        "sub": "扫描任意 npm 包" },
-      "url":   { "label": "网站",           "sub": "被动 Header 和 CSP 审计" },
-      "github":{ "label": "GitHub 项目",   "sub": "完整仓库 — 公开或私有" }
+      "skill": {
+        "label": "OpenClaw 技能",
+        "sub": "技能文件或 crawsecure.json"
+      },
+      "npm": {
+        "label": "NPM 包",
+        "sub": "扫描任意 npm 包"
+      },
+      "url": {
+        "label": "网站",
+        "sub": "被动 Header 和 CSP 审计"
+      },
+      "github": {
+        "label": "GitHub 项目",
+        "sub": "完整仓库 — 公开或私有"
+      }
     },
     "dropzone": {
       "title": "将 crawsecure.json 或技能文件拖放到此处",
@@ -135,7 +147,11 @@
     "findings": "发现",
     "noFindings": "未发现安全信号。此技能看起来是安全的。",
     "filesScanned": "已扫描 {count} 个文件",
-    "levels": { "high": "严重", "medium": "警告", "low": "提示" },
+    "levels": {
+      "high": "严重",
+      "medium": "警告",
+      "low": "提示"
+    },
     "saveStatus": {
       "saving": "保存中…",
       "saved": "已保存到仪表板",
@@ -161,22 +177,14 @@
       "featureStatsSub": "平均 · 最佳 · 主要规则"
     },
     "anonymous": {
-      "issuesFound": "发现 {count} 个问题 — 免费登录以查看触发的规则",
-      "tableFeature": "功能",
-      "tableNow": "现在",
-      "tableFree": "免费",
-      "tablePro": "PRO",
-      "signIn": "登录",
-      "riskScore": "风险评分",
-      "severityCounts": "严重程度统计",
-      "ruleNames": "触发的规则",
-      "filesAffected": "受影响的文件",
-      "autoSave": "自动保存到历史记录",
-      "tenScans": "每月 10 次扫描",
-      "unlimited": "无限次扫描",
-      "fullHistory": "完整历史记录（50条）",
-      "trendChart": "分数趋势图",
-      "jsonExport": "JSON 导出"
+      "guestUsed": "{used} of {limit} guest scans used",
+      "guestRemaining": "{remaining} left",
+      "guestCtaBody": "Sign in free to save scans, track history and get 10 scans/month. Upgrade to PRO for unlimited.",
+      "guestLimitTitle": "Guest scan limit reached",
+      "guestLimitBody": "You've used all 3 free guest scans. Sign in to get 10 scans/month for free.",
+      "signInForMore": "sign in for more",
+      "signIn": "Sign in with GitHub",
+      "upgradePro": "PRO · unlimited"
     }
   },
   "dashboard": {
