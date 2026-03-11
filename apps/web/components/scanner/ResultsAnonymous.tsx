@@ -1,71 +1,85 @@
 "use client";
 
+import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { Check, Minus, Lock, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Zap } from "lucide-react";
+import { Badge }   from "@/components/ui/badge";
+import { Button }  from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { ScoreGauge } from "./ScoreGauge";
-import type { ScanResult } from "@/types/scanner";
+import type { Finding, ScanResult } from "@/types/scanner";
 
-const LEVEL_DOT: Record<string, string> = {
-  high:   "bg-red-500",
-  medium: "bg-amber-500",
-  low:    "bg-blue-500",
+const PENDING_KEY = "CRAWSECURE_PENDING_SCAN";
+
+const LEVEL_CONFIG = {
+  high:   { dot: "bg-red-500",   badge: "destructive" as const },
+  medium: { dot: "bg-amber-500", badge: "secondary"   as const },
+  low:    { dot: "bg-blue-500",  badge: "outline"     as const },
 };
 
-// Feature comparison — labelKey is a typed next-intl key for t()
-type AnonLabelKey =
-  | "anonymous.riskScore" | "anonymous.severityCounts" | "anonymous.ruleNames"
-  | "anonymous.filesAffected" | "anonymous.autoSave" | "anonymous.tenScans"
-  | "anonymous.unlimited" | "anonymous.fullHistory" | "anonymous.trendChart"
-  | "anonymous.jsonExport";
+function FindingRow({ finding }: { finding: Finding }) {
+  const { dot } = LEVEL_CONFIG[finding.level];
+  return (
+    <div className="flex items-start gap-2.5 text-sm py-1.5">
+      <span className={`mt-1.5 h-2 w-2 rounded-full shrink-0 ${dot}`} />
+      <div className="flex flex-col gap-0.5 min-w-0">
+        <span className="font-medium">{finding.message}</span>
+        <span className="text-xs text-muted-foreground font-mono truncate">{finding.file}</span>
+      </div>
+    </div>
+  );
+}
 
-type FeatureRow = {
-  labelKey: AnonLabelKey;
-  anon: "yes" | "no" | "lock";
-  free: "yes" | "no";
-  pro:  "yes" | "no";
-};
-
-const FEATURES: FeatureRow[] = [
-  { labelKey: "anonymous.riskScore",      anon: "yes",  free: "yes", pro: "yes" },
-  { labelKey: "anonymous.severityCounts", anon: "yes",  free: "yes", pro: "yes" },
-  { labelKey: "anonymous.ruleNames",      anon: "lock", free: "yes", pro: "yes" },
-  { labelKey: "anonymous.filesAffected",  anon: "lock", free: "yes", pro: "yes" },
-  { labelKey: "anonymous.autoSave",       anon: "no",   free: "yes", pro: "yes" },
-  { labelKey: "anonymous.tenScans",       anon: "no",   free: "yes", pro: "yes" },
-  { labelKey: "anonymous.unlimited",      anon: "no",   free: "no",  pro: "yes" },
-  { labelKey: "anonymous.fullHistory",    anon: "no",   free: "no",  pro: "yes" },
-  { labelKey: "anonymous.trendChart",     anon: "no",   free: "no",  pro: "yes" },
-  { labelKey: "anonymous.jsonExport",     anon: "no",   free: "no",  pro: "yes" },
-];
-
-function Cell({ value }: { value: "yes" | "no" | "lock" }) {
-  if (value === "yes")  return <Check className="h-3.5 w-3.5 text-emerald-500 mx-auto" />;
-  if (value === "lock") return <Lock  className="h-3 w-3 text-amber-500 mx-auto" />;
-  return <Minus className="h-3 w-3 text-muted-foreground/40 mx-auto" />;
+function FindingGroup({
+  level,
+  label,
+  findings,
+}: {
+  level: "high" | "medium" | "low";
+  label: string;
+  findings: Finding[];
+}) {
+  if (findings.length === 0) return null;
+  const { badge } = LEVEL_CONFIG[level];
+  return (
+    <div className="flex flex-col gap-1">
+      <Badge variant={badge} className="text-xs self-start">{label} · {findings.length}</Badge>
+      <div className="flex flex-col divide-y divide-border/50">
+        {findings.map((f, i) => <FindingRow key={`${f.ruleId}-${i}`} finding={f} />)}
+      </div>
+    </div>
+  );
 }
 
 interface Props {
-  result: ScanResult;
+  result:     ScanResult;
+  guestCount: number;
+  guestLimit: number;
 }
 
-export function ResultsAnonymous({ result }: Props) {
+export function ResultsAnonymous({ result, guestCount, guestLimit }: Props) {
   const t = useTranslations("scanner");
-  const { score, risk, summary, filesScanned } = result;
-  const totalIssues = summary.critical + summary.warning + summary.info;
+  const { score, risk, summary, findings, filesScanned, rulesTriggered } = result;
 
-  const placeholderRows = [
-    ...Array(Math.min(summary.critical, 4)).fill("high"),
-    ...Array(Math.min(summary.warning,  3)).fill("medium"),
-    ...Array(Math.min(summary.info,     2)).fill("low"),
-  ];
+  const byLevel = {
+    high:   findings.filter(f => f.level === "high"),
+    medium: findings.filter(f => f.level === "medium"),
+    low:    findings.filter(f => f.level === "low"),
+  };
+
+  const remaining = guestLimit - guestCount;
+
+  function handleSignIn() {
+    sessionStorage.setItem(PENDING_KEY, JSON.stringify(result));
+    signIn("github", { callbackUrl: "/analyze" });
+  }
 
   return (
     <div className="w-full max-w-xl flex flex-col gap-4">
 
-      {/* ── Score card ─────────────────────────────────────────────────── */}
+      {/* ── Score ───────────────────────────────────────────────────────── */}
       <Card>
         <CardHeader className="pb-2">
           <ScoreGauge score={score} risk={risk} />
@@ -85,113 +99,88 @@ export function ResultsAnonymous({ result }: Props) {
               <strong>{summary.info}</strong> {t("levels.low")}
             </span>
           </div>
+
+          <div className="flex flex-wrap gap-1.5">
+            {rulesTriggered.map(id => (
+              <Badge key={id} variant="outline" className="font-mono text-[10px]">{id}</Badge>
+            ))}
+          </div>
+
           <p className="text-xs text-muted-foreground">
             {t("filesScanned", { count: filesScanned })}
           </p>
         </CardContent>
       </Card>
 
-      {/* ── Blurred findings ───────────────────────────────────────────── */}
-      {totalIssues > 0 && (
-        <Card className="relative overflow-hidden">
-          <CardContent className="pt-4">
-            <div className="flex flex-col gap-2 select-none">
-              {placeholderRows.map((level, i) => (
-                <div
-                  key={i}
-                  className="flex items-start gap-2 text-sm blur-sm pointer-events-none"
-                  aria-hidden
-                >
-                  <span className={`mt-1.5 h-2 w-2 rounded-full shrink-0 ${LEVEL_DOT[level]}`} />
-                  <div className="flex flex-col gap-0.5">
-                    <span className="font-medium font-mono text-xs bg-muted rounded px-1">
-                      {level === "high" ? "eval" : level === "medium" ? "child-process" : "process-env"}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      src/affected/file.js · line {10 + i * 7}
-                    </span>
-                  </div>
-                </div>
-              ))}
-              {totalIssues > placeholderRows.length && (
-                <p className="text-xs text-muted-foreground blur-sm">
-                  +{totalIssues - placeholderRows.length} more issues…
-                </p>
-              )}
-            </div>
-
-            {/* Lock overlay */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/75 backdrop-blur-[3px]">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-950/40">
-                <Lock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-              </div>
-              <p className="text-sm font-medium text-center px-6">
-                {t("anonymous.issuesFound", { count: totalIssues })}
-              </p>
-            </div>
+      {/* ── Findings ────────────────────────────────────────────────────── */}
+      {findings.length > 0 ? (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">
+              {t("findings")}
+              <span className="ml-2 text-muted-foreground font-normal text-sm">({findings.length})</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <FindingGroup level="high"   label={t("levels.high")}   findings={byLevel.high}   />
+            {byLevel.high.length > 0 && byLevel.medium.length > 0 && <Separator />}
+            <FindingGroup level="medium" label={t("levels.medium")} findings={byLevel.medium} />
+            {(byLevel.high.length > 0 || byLevel.medium.length > 0) && byLevel.low.length > 0 && <Separator />}
+            <FindingGroup level="low"    label={t("levels.low")}    findings={byLevel.low}    />
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="border-emerald-200 dark:border-emerald-900">
+          <CardContent className="pt-6 text-center text-sm text-muted-foreground">
+            {t("noFindings")}
           </CardContent>
         </Card>
       )}
 
-      {/* ── Tier comparison ────────────────────────────────────────────── */}
-      <Card className="overflow-hidden">
-        <div className="grid grid-cols-[1fr_auto_auto_auto] items-center border-b border-border/60 bg-muted/40">
-          <div className="px-4 py-2.5 text-xs font-medium text-muted-foreground">{t("anonymous.tableFeature")}</div>
-          <div className="w-20 px-2 py-2.5 text-center text-xs font-medium text-muted-foreground">{t("anonymous.tableNow")}</div>
-          <div className="w-20 px-2 py-2.5 text-center text-xs font-semibold text-foreground">{t("anonymous.tableFree")}</div>
-          <div className="w-20 px-2 py-2.5 text-center">
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
-              <Zap className="h-3 w-3" /> {t("anonymous.tablePro")}
-            </span>
-          </div>
-        </div>
+      {/* ── Guest CTA ───────────────────────────────────────────────────── */}
+      <Card className="overflow-hidden border-border/60">
+        <CardContent className="pt-4 flex flex-col gap-3">
 
-        <div className="divide-y divide-border/40">
-          {FEATURES.map(({ labelKey, anon, free, pro }) => (
-            <div key={labelKey} className="grid grid-cols-[1fr_auto_auto_auto] items-center">
-              <span className="px-4 py-2 text-xs text-muted-foreground">
-                {t(labelKey)}
+          {/* Scan counter */}
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>{t("anonymous.guestUsed", { used: guestCount, limit: guestLimit })}</span>
+            {remaining > 0 && (
+              <span className="text-amber-600 dark:text-amber-400 font-medium">
+                {t("anonymous.guestRemaining", { remaining })}
               </span>
-              <div className="w-20 py-2 text-center"><Cell value={anon} /></div>
-              <div className="w-20 py-2 text-center"><Cell value={free} /></div>
-              <div className="w-20 py-2 text-center bg-primary/[0.03]"><Cell value={pro} /></div>
-            </div>
-          ))}
-        </div>
+            )}
+          </div>
 
-        <div className="grid grid-cols-[1fr_auto_auto_auto] items-center border-t border-border/60 bg-muted/20 px-4 py-3 gap-2">
-          <div />
-          <div className="w-20" />
-          <div className="w-20 text-center">
-            <Button
-              size="sm"
-              variant="outline"
-              className="h-7 text-xs w-full"
-              onClick={() => {
-                sessionStorage.setItem("CRAWSECURE_PENDING_SCAN", JSON.stringify(result));
-                signIn("github", { callbackUrl: "/analyze" });
-              }}
-            >
+          {/* Progress bar */}
+          <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+            <div
+              className="h-full rounded-full bg-amber-500 transition-all"
+              style={{ width: `${(guestCount / guestLimit) * 100}%` }}
+            />
+          </div>
+
+          <p className="text-xs text-muted-foreground">{t("anonymous.guestCtaBody")}</p>
+
+          {/* CTAs */}
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" className="flex-1 h-8 text-xs" onClick={handleSignIn}>
               {t("anonymous.signIn")}
             </Button>
-          </div>
-          <div className="w-20 text-center">
-            <Button
-              size="sm"
-              className="h-7 text-xs w-full gap-1"
-              asChild
-            >
-              <a href="/upgrade">
-                <Zap className="h-3 w-3" /> {t("anonymous.tablePro")}
-              </a>
+            <Button size="sm" className="flex-1 h-8 text-xs gap-1" asChild>
+              <Link href="/upgrade">
+                <Zap className="h-3 w-3" /> {t("anonymous.upgradePro")}
+              </Link>
             </Button>
           </div>
-        </div>
+
+        </CardContent>
       </Card>
 
       <p className="text-xs text-muted-foreground text-center">
-        {t("trust")}
+        {t("trust")}{" "}
+        <Link href="/trust" className="underline underline-offset-2 hover:text-foreground">{t("trustLink")}</Link>
       </p>
+
     </div>
   );
 }

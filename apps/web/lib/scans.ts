@@ -205,6 +205,25 @@ export async function deleteScan(scanId: string, userId: string): Promise<void> 
   await ref.delete();
 }
 
+export async function getCliKeyMeta(
+  userId: string,
+): Promise<{ hasKey: boolean; createdAt: string | null }> {
+  if (!FIREBASE_READY || !db) return { hasKey: false, createdAt: null };
+
+  const doc = await db.collection("users").doc(userId).get();
+  if (!doc.exists) return { hasKey: false, createdAt: null };
+
+  const data        = doc.data()!;
+  const hash        = data.cliApiKeyHash as string | null ?? null;
+  const createdDate = data.cliApiKeyCreatedAt ?? null;
+
+  return {
+    hasKey:    !!hash,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    createdAt: createdDate ? (createdDate as any)?.toDate?.()?.toISOString() ?? null : null,
+  };
+}
+
 export async function ensureUserDoc(
   userId: string,
   profile: { email?: string | null; name?: string | null; image?: string | null; githubId: string },

@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FileDropzone }     from "./FileDropzone";
 import { ResultsAnonymous } from "./ResultsAnonymous";
@@ -10,7 +12,9 @@ import { ResultsFull }      from "./ResultsFull";
 import { parseCrawsecureJson, runBrowserScan } from "@/lib/scanner";
 import type { ScanResult } from "@/types/scanner";
 
-const PENDING_KEY = "CRAWSECURE_PENDING_SCAN";
+const PENDING_KEY       = "CRAWSECURE_PENDING_SCAN";
+const GUEST_SCANS_KEY   = "crawsecure_guest_scans";
+const GUEST_SCAN_LIMIT  = 3;
 
 type ScanState =
   | { status: "idle" }
@@ -24,13 +28,28 @@ function isCrawsecureJson(files: FileList): boolean {
   return files.length === 1 && files[0].name === "crawsecure.json";
 }
 
+function getGuestCount(): number {
+  try { return parseInt(localStorage.getItem(GUEST_SCANS_KEY) ?? "0", 10) || 0; }
+  catch { return 0; }
+}
+
+function incrementGuestCount(): number {
+  const next = getGuestCount() + 1;
+  try { localStorage.setItem(GUEST_SCANS_KEY, String(next)); } catch {}
+  return next;
+}
+
 export function ScanOrchestrator() {
   const { data: session, status: sessionStatus } = useSession();
   const [state,      setState]      = useState<ScanState>({ status: "idle" });
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
-  const savedRef = useRef(false); // prevent double-save in StrictMode
+  const [guestCount, setGuestCount] = useState(0);
+  const savedRef = useRef(false);
   const t  = useTranslations("scanner");
   const tc = useTranslations("common");
+
+  // Init guest count from localStorage
+  useEffect(() => { setGuestCount(getGuestCount()); }, []);
 
   // Restore scan result after OAuth redirect
   useEffect(() => {
@@ -72,6 +91,9 @@ export function ScanOrchestrator() {
   }, [state.status, session]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFiles = useCallback(async (files: FileList) => {
+    // Block scan if guest limit reached
+    if (!session && getGuestCount() >= GUEST_SCAN_LIMIT) return;
+
     setState({ status: "scanning" });
     savedRef.current = false;
     setSaveStatus("idle");
@@ -81,6 +103,12 @@ export function ScanOrchestrator() {
         ? parseCrawsecureJson(await files[0].text())
         : await runBrowserScan(files);
 
+      // Increment guest count after successful scan
+      if (!session) {
+        const next = incrementGuestCount();
+        setGuestCount(next);
+      }
+
       setState({ status: "done", result });
     } catch (err) {
       setState({
@@ -88,7 +116,7 @@ export function ScanOrchestrator() {
         message: err instanceof Error ? err.message : "Failed to process files.",
       });
     }
-  }, []);
+  }, [session]);
 
   const reset = useCallback(() => {
     setState({ status: "idle" });
@@ -98,9 +126,39 @@ export function ScanOrchestrator() {
 
   // ── Idle ────────────────────────────────────────────────────────────────
   if (state.status === "idle") {
+    // Guest limit gate
+    if (sessionStatus !== "loading" && !session && guestCount >= GUEST_SCAN_LIMIT) {
+      return (
+        <div className="flex flex-col items-center gap-4 py-8 text-center max-w-sm">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-950/40">
+            <Lock className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+          </div>
+          <div>
+            <p className="font-medium">{t("anonymous.guestLimitTitle")}</p>
+            <p className="text-sm text-muted-foreground mt-1">{t("anonymous.guestLimitBody")}</p>
+          </div>
+          <Button onClick={() => signIn("github", { callbackUrl: "/analyze" })} className="gap-2">
+            {t("anonymous.signIn")}
+          </Button>
+        </div>
+      );
+    }
+
     return (
       <div className="flex flex-col items-center gap-6">
         <FileDropzone onFiles={handleFiles} />
+        {!session && guestCount > 0 && (
+          <p className="text-xs text-muted-foreground">
+            {t("anonymous.guestUsed", { used: guestCount, limit: GUEST_SCAN_LIMIT })}
+            {" · "}
+            <button
+              className="underline underline-offset-2 hover:text-foreground"
+              onClick={() => signIn("github", { callbackUrl: "/analyze" })}
+            >
+              {t("anonymous.signInForMore")}
+            </button>
+          </p>
+        )}
         <div className="text-xs text-muted-foreground text-center max-w-sm">
           <strong>{t("tip.prefix")}</strong> {t("tip.body")}
           <br />
@@ -143,7 +201,7 @@ export function ScanOrchestrator() {
       {session ? (
         <ResultsFull result={result} isPro={isPro} saveStatus={saveStatus} />
       ) : (
-        <ResultsAnonymous result={result} />
+        <ResultsAnonymous result={result} guestCount={guestCount} guestLimit={GUEST_SCAN_LIMIT} />
       )}
       <Button variant="ghost" size="sm" onClick={reset} className="text-muted-foreground">
         {t("scanAnother")}

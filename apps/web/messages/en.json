@@ -161,22 +161,14 @@
       "featureStatsSub": "avg · best · top rule"
     },
     "anonymous": {
-      "issuesFound": "{count, plural, one {# issue found — sign in free to see exactly which rules fired} other {# issues found — sign in free to see exactly which rules fired}}",
-      "tableFeature": "Feature",
-      "tableNow": "Now",
-      "tableFree": "Free",
-      "tablePro": "PRO",
-      "signIn": "Sign in",
-      "riskScore": "Risk score",
-      "severityCounts": "Severity counts",
-      "ruleNames": "Rule names triggered",
-      "filesAffected": "Files affected",
-      "autoSave": "Auto-save to history",
-      "tenScans": "10 scans / month",
-      "unlimited": "Unlimited scans",
-      "fullHistory": "Full history (50)",
-      "trendChart": "Score trend chart",
-      "jsonExport": "JSON export"
+      "guestUsed": "{used} of {limit} guest scans used",
+      "guestRemaining": "{remaining} left",
+      "guestCtaBody": "Sign in free to save scans, track history and get 10 scans/month. Upgrade to PRO for unlimited.",
+      "guestLimitTitle": "Guest scan limit reached",
+      "guestLimitBody": "You've used all 3 free guest scans. Sign in to get 10 scans/month for free.",
+      "signInForMore": "sign in for more",
+      "signIn": "Sign in with GitHub",
+      "upgradePro": "PRO · unlimited"
     }
   },
   "dashboard": {
@@ -202,8 +194,14 @@
     "proPlanInfo": "You are on the PRO plan at $9/month.",
     "scansUsed": "{used} / {limit} scans used this month",
     "scansUnlimited": "{used} scans this month · unlimited",
-    "apiKey": "API Key",
-    "apiKeySoon": "CI/CD API key coming soon."
+    "apiKey": "CLI API Key",
+    "apiKeyDesc": "Use this key with the crawsecure CLI to save scans to your account.",
+    "apiKeyNone": "No key generated yet. Run crawsecure login to generate one.",
+    "apiKeyCreated": "Created {date}",
+    "apiKeyRegenerate": "Regenerate",
+    "apiKeyRegenerating": "Regenerating…",
+    "apiKeyNewKey": "New key generated — copy it now, it will not be shown again.",
+    "apiKeyAvailableAll": "Available on Free and PRO plans."
   },
   "upgrade": {
     "title": "Upgrade to PRO",

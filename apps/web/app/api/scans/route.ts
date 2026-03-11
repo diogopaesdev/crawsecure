@@ -1,8 +1,7 @@
 import { NextResponse }      from "next/server";
-import { getServerSession }  from "next-auth";
 import { z }                 from "zod";
 import { v4 as uuid }        from "uuid";
-import { authOptions }       from "@/lib/auth";
+import { resolveAuth }       from "@/lib/api-auth";
 import { saveScan, FREE_SCAN_LIMIT } from "@/lib/scans";
 
 // ── Validation schema ──────────────────────────────────────────────────────
@@ -24,8 +23,8 @@ const saveScanSchema = z.object({
 // ── POST /api/scans ────────────────────────────────────────────────────────
 
 export async function POST(request: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
+  const auth = await resolveAuth(request);
+  if (!auth) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -46,8 +45,7 @@ export async function POST(request: Request) {
   }
 
   const { summary, score, risk, rulesTriggered, filesScanned } = parsed.data;
-  const userId = session.user.id;
-  const plan   = session.user.plan;
+  const { userId, plan } = auth;
 
   // Persist to Firestore — limit is enforced atomically inside the transaction
   const scanId = uuid();
