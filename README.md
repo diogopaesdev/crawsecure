@@ -1,5 +1,7 @@
 # CrawSecure
 
+[![AgentAudit: Safe](https://agentaudit.dev/api/badge/crawsecure)](https://agentaudit.dev/skills/crawsecure)
+
 CrawSecure is an open-source security scanner for ClawHub skills.
 It helps you decide whether a skill is safe before installing it.
 
