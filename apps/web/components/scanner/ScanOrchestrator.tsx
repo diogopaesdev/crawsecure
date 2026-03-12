@@ -109,6 +109,9 @@ export function ScanOrchestrator() {
         setGuestCount(next);
       }
 
+      // Fire-and-forget ping — anonymous, no data sent
+      fetch("/api/stats/ping", { method: "POST" }).catch(() => {});
+
       setState({ status: "done", result });
     } catch (err) {
       setState({
