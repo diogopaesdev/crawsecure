@@ -10,6 +10,7 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import { getTranslations } from "next-intl/server";
+import { getTotalScans } from "@/lib/stats";
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -46,6 +47,7 @@ const CLI_DEMO = `$ npx crawsecure ./my-skill
 
 export default async function LandingPage() {
   const t = await getTranslations("home");
+  const totalScans = await getTotalScans();
 
   const features = [
     { icon: ShieldCheck, title: t("feat1Title"), description: t("feat1Desc") },
@@ -166,6 +168,12 @@ export default async function LandingPage() {
               {text}
             </span>
           ))}
+          {totalScans > 0 && (
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/60 border border-border/50 rounded-full px-3 py-1">
+              <ScanLine className="h-3 w-3 shrink-0 text-primary" />
+              {totalScans.toLocaleString()} scans performed
+            </span>
+          )}
         </div>
       </section>
 
