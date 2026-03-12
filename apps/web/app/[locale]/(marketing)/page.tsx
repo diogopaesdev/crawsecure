@@ -1,16 +1,14 @@
 import { Link } from "@/i18n/navigation";
 import {
-  ShieldCheck, ScanLine, Eye, BarChart2, FileJson, Search, Github,
-  Terminal, ChevronRight, Lock, Zap,
+  ShieldCheck, Terminal, ChevronRight, Lock, ArrowRight, ScanLine,
 } from "lucide-react";
 import { Button }  from "@/components/ui/button";
-import { Badge }   from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import { getTranslations } from "next-intl/server";
 import { getTotalScans } from "@/lib/stats";
+import { HeroRotator } from "@/components/landing/HeroRotator";
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -28,35 +26,28 @@ const LEVEL_TEXT: Record<string, string> = {
 
 const CLI_DEMO = `$ npx crawsecure ./my-skill
 
-  CrawSecure v2 — Privacy-first skill scanner
+┌──────────────────────────────────────────────────┐
+│  CrawSecure v2  ·  @username  [FREE]             │
+└──────────────────────────────────────────────────┘
 
-  Scanning ./my-skill …
+Target: ./my-skill
 
-  ⚠  MEDIUM  child-process  Executes system commands
-  🔴 HIGH    eval           Dynamic code execution via eval()
-  ⚠  MEDIUM  curl           Network request via curl
+🚨 Security signals found: 3
 
-  ─────────────────────────────────────
-  Files scanned : 12
-  Score         : 72  ›  HIGH
-  ─────────────────────────────────────
+  🔴 [HIGH]   Detected eval() usage — src/index.js
+  🟡 [MEDIUM] child_process detected — src/utils.js
+  🟢 [LOW]    process.env access — src/config.js
 
-  Visualize at → crawsecure.com/analyze`;
+📊 Risk score: 8500 → HIGH
+
+  Scan saved  →  crawsecure.com/dashboard/abc123
+  Free · 3 / 10 scans this month`;
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function LandingPage() {
   const t = await getTranslations("home");
   const totalScans = await getTotalScans();
-
-  const features = [
-    { icon: ShieldCheck, title: t("feat1Title"), description: t("feat1Desc") },
-    { icon: Eye,         title: t("feat2Title"), description: t("feat2Desc") },
-    { icon: BarChart2,   title: t("feat3Title"), description: t("feat3Desc") },
-    { icon: FileJson,    title: t("feat4Title"), description: t("feat4Desc") },
-    { icon: Search,      title: t("feat5Title"), description: t("feat5Desc") },
-    { icon: Github,      title: t("feat6Title"), description: t("feat6Desc") },
-  ];
 
   const steps = [
     { step: "01", title: t("step1Title"), description: t("step1Desc") },
@@ -89,108 +80,53 @@ export default async function LandingPage() {
     { q: t("faq6q"), a: t("faq6a") },
   ];
 
-  const pills = [
-    { icon: Lock,        text: t("pill1") },
-    { icon: Eye,         text: t("pill2") },
-    { icon: ShieldCheck, text: t("pill3") },
-    { icon: Zap,         text: t("pill4") },
-  ];
-
-  const legend = [
-    { color: "bg-red-500",   label: t("rulesHigh") },
-    { color: "bg-amber-500", label: t("rulesMedium") },
-    { color: "bg-blue-500",  label: t("rulesLow") },
+  const privPoints = [
+    t("privPoint1"),
+    t("privPoint2"),
+    t("privPoint3"),
+    t("privPoint4"),
   ];
 
   return (
     <div className="flex flex-col min-h-screen">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative flex flex-col items-center text-center px-4 sm:px-6 pt-20 sm:pt-28 pb-14 sm:pb-20 gap-5 sm:gap-7">
-        {/* Gradient glow */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-[400px] sm:h-[480px]"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 60% at 50% -5%, oklch(0.52 0.24 285 / 0.12), transparent)",
-          }}
-        />
+      <HeroRotator />
 
-        <Badge
-          variant="secondary"
-          className="gap-1.5 border border-border/60 bg-background px-3 py-1 text-xs font-medium shadow-sm"
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-primary inline-block" />
-          {t("badge")}
-        </Badge>
-
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight max-w-3xl leading-[1.05]">
-          {t("heroTitle1")}{" "}
-          <span
-            style={{
-              background: "linear-gradient(135deg, oklch(0.52 0.24 285), oklch(0.65 0.20 310))",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            {t("heroTitle2")}
-          </span>
-        </h1>
-
-        <p className="text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed">
-          {t("heroSubtitle")}
-        </p>
-
-        <div className="flex flex-col xs:flex-row sm:flex-row gap-3 w-full sm:w-auto mt-1">
-          <Button asChild size="lg" className="gap-2 shadow-sm w-full sm:w-auto">
-            <Link href="/analyze">
-              <ScanLine className="h-4 w-4" />
-              {t("ctaPrimary")}
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="lg" className="gap-2 w-full sm:w-auto">
-            <a href="https://github.com/diogopaesdev/crawsecure" target="_blank" rel="noopener noreferrer">
-              <Github className="h-4 w-4" />
-              {t("ctaGitHub")}
-            </a>
-          </Button>
-        </div>
-
-        {/* Trust pills */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-1">
-          {pills.map(({ icon: Icon, text }) => (
-            <span
-              key={text}
-              className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/60 border border-border/50 rounded-full px-3 py-1"
-            >
-              <Icon className="h-3 w-3 shrink-0 text-primary" />
-              {text}
+      {/* ── Stats bar ────────────────────────────────────────────────────── */}
+      <div className="border-y border-border/60 bg-muted/20">
+        <div className="max-w-3xl mx-auto grid grid-cols-3 divide-x divide-border/60">
+          <div className="flex flex-col items-center py-5 px-4 gap-0.5">
+            <span className="text-2xl sm:text-3xl font-bold tabular-nums tracking-tight">
+              {totalScans > 0 ? totalScans.toLocaleString() : "—"}
             </span>
-          ))}
-          {totalScans > 0 && (
-            <span className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/60 border border-border/50 rounded-full px-3 py-1">
-              <ScanLine className="h-3 w-3 shrink-0 text-primary" />
-              {totalScans.toLocaleString()} scans performed
-            </span>
-          )}
+            <span className="text-xs text-muted-foreground">{t("statScansLabel")}</span>
+          </div>
+          <div className="flex flex-col items-center py-5 px-4 gap-0.5">
+            <span className="text-2xl sm:text-3xl font-bold tabular-nums tracking-tight">13</span>
+            <span className="text-xs text-muted-foreground">{t("statRulesLabel")}</span>
+          </div>
+          <div className="flex flex-col items-center py-5 px-4 gap-0.5">
+            <span className="text-2xl sm:text-3xl font-bold tabular-nums tracking-tight font-mono text-lg sm:text-xl">.js .ts .sh</span>
+            <span className="text-xs text-muted-foreground">{t("statFilesLabel")}</span>
+          </div>
         </div>
-      </section>
+      </div>
 
       {/* ── CLI demo ─────────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 pb-14 sm:pb-20">
-        <div className="max-w-2xl mx-auto">
-          <div className="rounded-2xl border border-border/60 bg-zinc-950 shadow-2xl overflow-hidden">
-            <div className="flex items-center gap-1.5 px-4 py-3 border-b border-zinc-800/60">
-              <span className="h-3 w-3 rounded-full bg-red-500/60" />
-              <span className="h-3 w-3 rounded-full bg-yellow-500/60" />
-              <span className="h-3 w-3 rounded-full bg-green-500/60" />
+      <section className="px-4 sm:px-6 py-16 sm:py-24">
+        <div className="max-w-3xl mx-auto">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-950 overflow-hidden shadow-xl">
+            <div className="flex items-center gap-1.5 px-4 py-3 border-b border-zinc-800/80">
+              <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
+              <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
+              <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
               <div className="ml-auto flex items-center gap-1.5 text-[11px] text-zinc-500 font-mono">
                 <Terminal className="h-3 w-3" />
-                Terminal
+                bash
               </div>
             </div>
-            <pre className="p-4 sm:p-6 text-[11px] sm:text-[13px] font-mono text-zinc-300 whitespace-pre overflow-x-auto leading-[1.8]">
+            <pre className="p-5 sm:p-7 text-[11px] sm:text-[13px] font-mono text-zinc-300 whitespace-pre overflow-x-auto leading-[1.9]">
               {CLI_DEMO}
             </pre>
           </div>
@@ -198,22 +134,20 @@ export default async function LandingPage() {
       </section>
 
       {/* ── How it works ─────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-14 sm:py-20 border-t border-border/50">
+      <section className="px-4 sm:px-6 py-16 sm:py-24 border-t border-border/50">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10 sm:mb-14">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">{t("howTitle")}</h2>
-            <p className="text-muted-foreground text-sm max-w-md mx-auto">
-              {t("howSubtitle")}
-            </p>
+          <div className="mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("howTitle")}</h2>
+            <p className="text-muted-foreground text-sm mt-2">{t("howSubtitle")}</p>
           </div>
-          <div className="grid sm:grid-cols-3 gap-8 sm:gap-10">
+          <div className="grid sm:grid-cols-3 gap-10 sm:gap-12">
             {steps.map(({ step, title, description }) => (
-              <div key={step} className="flex flex-col gap-3">
-                <span className="text-[40px] sm:text-[48px] font-mono font-bold leading-none text-primary/20 dark:text-primary/15 tabular-nums">
+              <div key={step} className="flex flex-col gap-4">
+                <span className="text-5xl font-mono font-bold leading-none text-border tabular-nums select-none">
                   {step}
                 </span>
                 <div>
-                  <h3 className="font-semibold mb-1">{title}</h3>
+                  <h3 className="font-semibold text-sm mb-1.5">{title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
                 </div>
               </div>
@@ -222,59 +156,32 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* ── Features ─────────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-14 sm:py-20 border-t border-border/50">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10 sm:mb-14">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">{t("featTitle")}</h2>
-            <p className="text-muted-foreground text-sm max-w-sm mx-auto">
-              {t("featSubtitle")}
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            {features.map(({ icon: Icon, title, description }) => (
-              <Card key={title} className="border-border/60 bg-card hover:border-primary/30 transition-colors">
-                <CardContent className="pt-5 flex flex-col gap-3">
-                  <div className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Icon className="h-4.5 w-4.5 text-primary" style={{ width: 18, height: 18 }} />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm mb-1">{title}</p>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Rules showcase ───────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-14 sm:py-20 border-t border-border/50">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-8 sm:mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">{t("rulesTitle")}</h2>
-            <p className="text-sm text-muted-foreground">
-              {t("rulesSubtitle")}{" "}
-              <a
-                href="https://github.com/diogopaesdev/crawsecure"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline underline-offset-4"
-              >
-                {t("rulesSource")}
-              </a>
-            </p>
+      {/* ── Rules ────────────────────────────────────────────────────────── */}
+      <section className="px-4 sm:px-6 py-16 sm:py-24 border-t border-border/50">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-10">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("rulesTitle")}</h2>
+              <p className="text-sm text-muted-foreground mt-1">{t("rulesSubtitle")}</p>
+            </div>
+            <a
+              href="https://github.com/diogopaesdev/crawsecure"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-primary hover:underline underline-offset-4 shrink-0"
+            >
+              {t("rulesSource")} ↗
+            </a>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
             {rules.map(({ id, level, label }) => (
               <div
                 key={id}
-                className="group flex items-center gap-3 rounded-xl border border-border/60 bg-card px-3.5 py-2.5 hover:border-primary/30 transition-colors"
+                className="flex items-center gap-3 rounded-lg border border-border/50 bg-card/50 px-3.5 py-2.5 hover:bg-card transition-colors"
               >
-                <span className={`h-2 w-2 rounded-full shrink-0 ${LEVEL_DOT[level]}`} />
-                <span className={`font-mono text-xs font-semibold shrink-0 ${LEVEL_TEXT[level]}`}>
+                <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${LEVEL_DOT[level]}`} />
+                <span className={`font-mono text-[11px] font-semibold shrink-0 ${LEVEL_TEXT[level]}`}>
                   {id}
                 </span>
                 <span className="text-xs text-muted-foreground truncate">{label}</span>
@@ -282,56 +189,61 @@ export default async function LandingPage() {
             ))}
           </div>
 
-          <div className="flex gap-5 mt-6 justify-center text-xs text-muted-foreground">
-            {legend.map(({ color, label }) => (
-              <span key={label} className="flex items-center gap-1.5">
-                <span className={`h-2 w-2 rounded-full ${color}`} />
-                {label}
-              </span>
-            ))}
+          <div className="flex gap-5 mt-5 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-red-500" />{t("rulesHigh")}</span>
+            <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-amber-500" />{t("rulesMedium")}</span>
+            <span className="flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-blue-500" />{t("rulesLow")}</span>
           </div>
         </div>
       </section>
 
-      {/* ── Privacy strip ────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-12 sm:py-16 border-t border-border/50">
-        <div className="max-w-2xl mx-auto text-center flex flex-col gap-4 sm:gap-5">
-          <div
-            className="inline-flex h-12 w-12 mx-auto items-center justify-center rounded-2xl"
-            style={{
-              background: "linear-gradient(135deg, oklch(0.52 0.24 285), oklch(0.65 0.20 310))",
-            }}
-          >
-            <Lock className="h-5 w-5 text-white" />
+      {/* ── Privacy ──────────────────────────────────────────────────────── */}
+      <section className="px-4 sm:px-6 py-16 sm:py-24 border-t border-border/50">
+        <div className="max-w-4xl mx-auto grid sm:grid-cols-2 gap-10 sm:gap-16 items-start">
+          <div className="flex flex-col gap-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-muted">
+              <Lock className="h-4 w-4 text-foreground" />
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
+              {t("privTitle")}
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {t("privBody")}
+            </p>
+            <Button asChild variant="outline" size="sm" className="gap-1.5 self-start mt-1">
+              <Link href="/trust">
+                {t("privBtn")}
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Link>
+            </Button>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight">
-            {t("privTitle")}
-          </h2>
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            {t("privBody")}
-          </p>
-          <Button asChild variant="outline" size="sm" className="mx-auto gap-1.5">
-            <Link href="/trust">
-              {t("privBtn")}
-              <ChevronRight className="h-3.5 w-3.5" />
-            </Link>
-          </Button>
+
+          <ul className="flex flex-col gap-3 pt-1">
+            {privPoints.map((point, i) => (
+              <li key={i} className="flex items-start gap-3 text-sm">
+                <span className="mt-1 h-4 w-4 rounded-full border border-border flex items-center justify-center shrink-0">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                </span>
+                <span className="text-muted-foreground leading-relaxed">{point}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 py-14 sm:py-20 border-t border-border/50">
+      <section className="px-4 sm:px-6 py-16 sm:py-24 border-t border-border/50">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-center mb-8 sm:mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-10">
             {t("faqTitle")}
           </h2>
           <Accordion type="single" collapsible>
             {faqs.map(({ q, a }, i) => (
               <AccordionItem key={i} value={`faq-${i}`}>
-                <AccordionTrigger className="text-left text-sm font-medium hover:no-underline">
+                <AccordionTrigger className="text-left text-sm font-medium hover:no-underline py-4">
                   {q}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
+                <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-4">
                   {a}
                 </AccordionContent>
               </AccordionItem>
@@ -342,19 +254,19 @@ export default async function LandingPage() {
 
       {/* ── Final CTA ────────────────────────────────────────────────────── */}
       <section className="px-4 sm:px-6 py-16 sm:py-24 border-t border-border/50">
-        <div className="max-w-xl mx-auto flex flex-col items-center gap-4 sm:gap-5 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("ctaTitle")}</h2>
-          <p className="text-muted-foreground text-sm">
-            {t("ctaSubtitle")}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <Button asChild size="lg" className="gap-2 shadow-sm w-full sm:w-auto">
+        <div className="max-w-2xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("ctaTitle")}</h2>
+            <p className="text-muted-foreground text-sm mt-2">{t("ctaSubtitle")}</p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+            <Button asChild size="lg" className="gap-2">
               <Link href="/analyze">
-                <ScanLine className="h-4 w-4" />
                 {t("ctaOpen")}
+                <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
+            <Button asChild variant="outline" size="lg">
               <Link href="/pricing">{t("ctaPlans")}</Link>
             </Button>
           </div>
@@ -362,7 +274,7 @@ export default async function LandingPage() {
       </section>
 
       {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="border-t border-border/50 px-4 sm:px-6 py-6">
+      <footer className="border-t border-border/50 px-4 sm:px-6 py-6 mt-auto">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <div className="flex h-5 w-5 items-center justify-center rounded-md bg-primary text-primary-foreground">
